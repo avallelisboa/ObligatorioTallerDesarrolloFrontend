@@ -1,4 +1,4 @@
-class ValidationResult{
+class ActionResult{
     constructor(public message:string,public isValid:boolean){}
 }
-export default ValidationResult;
+export default ActionResult;
