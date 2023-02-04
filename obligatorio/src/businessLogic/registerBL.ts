@@ -1,5 +1,5 @@
 import RegisterUser from '../models/viewmodels/registerUserVM';
-import ValidationResult from '../models/validationModels/validationResult';
+import ValidationResult from '../models/validationModels/actionResult';
 
 function isRegisterUserValid(userToRegister:RegisterUser):ValidationResult{
     let {userName,password,verifyPassword} = userToRegister;

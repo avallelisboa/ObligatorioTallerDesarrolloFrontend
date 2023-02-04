@@ -1,5 +1,5 @@
 import LoginUser from '../models/viewmodels/loginUserVM';
-import ValidationResult from '../models/validationModels/validationResult';
+import ValidationResult from '../models/validationModels/actionResult';
 
 
 function isLoginUserValid(user:LoginUser):ValidationResult{
@@ -8,8 +8,15 @@ function isLoginUserValid(user:LoginUser):ValidationResult{
 function isLogged():boolean{
     return localStorage.getItem('apikey') != null;
 }
-function saveApiKey(apikey:string){
-    localStorage.setItem('apikey', apikey);
+function saveApiKey(apikey:string):ValidationResult{
+    let validationResult = new ValidationResult("", true);
+    try{
+        localStorage.setItem('apikey', apikey);
+    }catch(error:any){
+        validationResult.isValid = false;
+        validationResult.message = error.message;
+    }
+    return validationResult;
 }
 function getApiKey():string{
     let apikey = localStorage.getItem('apikey');
