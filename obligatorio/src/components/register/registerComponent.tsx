@@ -1,17 +1,19 @@
+import './registerComponent.scss'
+
 import { useState, useEffect } from 'react';
 
-import './registerComponents.scss'
 
 const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState(0);
     const [departments, setDepartments] = useState(1);
     
-    useEffect(()=>{},[])
+    useEffect(()=>{
+
+    },[])
 
     return(
-        <div>
-            <form>
-                <legend>Register</legend>
+            <form id="registerFormId">
+                <legend>Registro</legend>
                 <fieldset>
                     <label htmlFor="userInput">Usuario</label>
                     <input type="text" id="userInput"/>
@@ -27,8 +29,13 @@ const Register = ()=>{
                 <fieldset>
                     <select></select>
                 </fieldset>
+                <fieldset>
+                    <select></select>
+                </fieldset>
+                <fieldset>
+                    <input type="submit" value="Registrarse"></input>
+                </fieldset>
             </form>
-        </div>
     );
 }
 

@@ -4,21 +4,22 @@ import Dashboard from './components/dashboard/dashboardComponent';
 import loginBL from './businessLogic/sessionBL';
 import './App.scss';
 import sessionBL from './businessLogic/sessionBL';
+import Nav from './components/header/navComponent';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
+    <>
+      <header>
+        {
+          sessionBL.isLogged() ? <Nav/> : null
+        }
       </header>
       <section>
-          <article>
             {
               sessionBL.isLogged() ? <Dashboard/> : <Login/>
             }
-          </article>
       </section>
-    </div>
+    </>
   );
 }
 

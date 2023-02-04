@@ -1,6 +1,16 @@
+import { useState, useEffect } from 'react';
+
 import './loginComponent.scss'
+import Register from '../register/registerComponent'
+
 
 const Login = ()=>{
+    const [mustShowModal, setMustShowModal] = useState(false);
+
+    const ShowModal = ()=>{
+        let mustShow = !mustShowModal;;
+        setMustShowModal(mustShow);
+    };
     return (
         <>
             <article>
@@ -17,9 +27,18 @@ const Login = ()=>{
                     <fieldset>
                         <input type="submit" value="Iniciar sesión"/>
                     </fieldset>
-                    <button>Registro</button>
+                    <button onClick={ShowModal}>Registro</button>
                 </form>
+                <p>{mustShowModal? 'true' : 'false'}</p>
             </article>
+            {
+                mustShowModal ?
+                                <article id="modalArticleId">
+                                    <i className="bi bi-x"></i>
+                                    <Register/>
+                                </article> : 
+                                null
+            }
         </>
     );
 }
