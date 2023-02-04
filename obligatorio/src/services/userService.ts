@@ -1,5 +1,5 @@
 import User from "../models/entities/User";
-import LoginUser from '../models/viewmodels/loginUserVMr';
+import LoginUser from '../models/viewmodels/loginUserVM';
 import RegisterUser from '../models/viewmodels/registerUserVM';
 import RegisterUserRequest from '../models/request/registerUserRequest';
 import global from "./global";

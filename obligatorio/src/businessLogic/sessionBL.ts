@@ -1,4 +1,4 @@
-import LoginUser from '../models/viewmodels/loginUserVMr';
+import LoginUser from '../models/viewmodels/loginUserVM';
 import ValidationResult from '../models/validationModels/validationResult';
 
 
