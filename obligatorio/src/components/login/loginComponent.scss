@@ -40,7 +40,7 @@ article{
   background-color: white;
   position: absolute;
   width: 50%;
-  height: 60%;
+  height: 90%;
   top:50%;
   left:50%;
   transform: translateX(-50%)
@@ -49,9 +49,15 @@ article{
   border: 2px solid gray;
   border-radius: 5px;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow:auto;
   i{
     position: absolute;
     top: 0;
     right: 0;
-}
+    width: 10%;
+    height: 5%;
+    text-align: center;
+  }
 }

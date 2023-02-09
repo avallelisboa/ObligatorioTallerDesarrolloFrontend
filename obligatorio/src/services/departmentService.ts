@@ -5,7 +5,7 @@ import UsersByDepartment from '../models/viewmodels/usersByDepartmentVM';
 
 let {baseURL} = global;
 
-function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>):Array<Department>{
+function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>):any{
     let departments:Array<Department> = new Array<Department>();
 
     fetch(`${baseURL}ciudades.php?departamentos.php`,{
@@ -22,12 +22,10 @@ function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>
             console.log(error)
             let objectToParse = JSON.parse(error.toString());
             departments = departmentParsingFN(objectToParse.console.error());
-        });
-        
-    return departments;
+        }).finally(()=>departments);
 }
 
-function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToParse:Array<object>)=>Array<UsersByDepartment>):Array<UsersByDepartment>{
+function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToParse:Array<object>)=>Array<UsersByDepartment>):any{
     let usersByDepartment:Array<UsersByDepartment> = new Array<UsersByDepartment>();
   
     fetch(`${baseURL}usuariosPorDepartamento.php`)
@@ -40,9 +38,7 @@ function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToPar
             console.log(error);
             let objectToParse = JSON.parse(error.toString());
             usersByDepartment = usersByDepartmentParsingFN(objectToParse);
-          });
-  
-    return usersByDepartment;
+          }).finally(()=>usersByDepartment);
   }
 
 let departmentService = {

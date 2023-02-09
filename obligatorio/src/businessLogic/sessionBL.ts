@@ -1,7 +1,14 @@
 import LoginUser from '../models/viewmodels/loginUserVM';
+import userService from '../services/userService';
 import ValidationResult from '../models/validationModels/actionResult';
 
+function logIn(user:LoginUser):ValidationResult{
+    let result = isLoginUserValid(user);
+    if(result.isValid)
+        result = userService.login(user, saveApiKey);
 
+    return result;
+}
 function isLoginUserValid(user:LoginUser):ValidationResult{
     return new ValidationResult("The data is correct", true);
 }
@@ -27,6 +34,7 @@ function logOut(){
 }
 
 let sessionBL = {
+    logIn,
     isLoginUserValid,
     isLogged,
     saveApiKey,

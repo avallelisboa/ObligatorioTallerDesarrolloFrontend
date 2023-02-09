@@ -1,8 +1,13 @@
 import Department from '../models/entities/Department';
+import DepartmentVM from '../models/viewmodels/departmentVM';
 import departmentService from '../services/departmentService';
 
 function getDepartments():Array<Department>{
     let departments = departmentService.getDepartments(parseDepartments);
+    return departments;
+}
+function getDepartmentsList():Array<DepartmentVM>{
+    let departments = new Array<DepartmentVM>();
     return departments;
 }
 function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
@@ -13,7 +18,8 @@ function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
 }
 
 let departmentBL = {
- getDepartments
+    getDepartments,
+    getDepartmentsList
 };
 
 export default departmentBL;
