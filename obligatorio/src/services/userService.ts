@@ -8,7 +8,7 @@ import ActionResult from '../models/validationModels/actionResult';
 
 let {baseURL} = global;
 
-function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):ActionResult{
+function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):any{
   let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}login.php`,{
@@ -25,11 +25,9 @@ function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):Actio
       .catch(error=>{
         console.log(error);
         actionResult.message = JSON.parse(error).message;
-      });
-
-    return actionResult;
+      }).finally(()=>actionResult);
 }
-function register(user:RegisterUserRequest):ActionResult{
+function register(user:RegisterUserRequest):any{
     let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}register.php`,{
@@ -45,9 +43,7 @@ function register(user:RegisterUserRequest):ActionResult{
     .catch(error=>{
       console.log(error);
       actionResult.message = JSON.parse(error).message;
-    });
-
-    return actionResult;
+    }).finally(()=>actionResult);
 }
 
 let userService ={
