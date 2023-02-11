@@ -12,8 +12,8 @@ function makeRegisterUserRequest(registerUserVM:RegisterUserVM):RegisterUserRequ
     return new RegisterUserRequest(registerUserVM.userName,registerUserVM.password,registerUserVM.departmentId,registerUserVM.cityId);
 }
 
-let requestFactoryMethod ={
+let RequestFactoryMethod ={
     makeAddMovementRequest,
     makeRegisterUserRequest
 };
-export default requestFactoryMethod;
+export default RequestFactoryMethod;

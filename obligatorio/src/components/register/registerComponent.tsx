@@ -2,9 +2,6 @@ import './registerComponent.scss'
 import { useState, useRef, useEffect } from 'react';
 import RegisterBL from '../../businessLogic/registerBL';
 import RegisterUserVM from '../../models/viewmodels/registerUserVM';
-import departmentBL from '../../businessLogic/departmentsBL';
-import DepartmentVM from '../../models/viewmodels/departmentVM';
-
 
 const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState('');
