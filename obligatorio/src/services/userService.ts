@@ -17,9 +17,10 @@ function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):any{
         headers:{
           'Content-Type':'application/json'
         }  
-      }).then(response=>{
+      }).then(res => res.json())
+      .then(response=>{
         console.log(response);
-        let apikey = JSON.parse(response.toString()).apiKey;
+        let apikey = response.apiKey;
         actionResult = saveApikeyFN(apikey);
       })
       .catch(error=>{
@@ -36,7 +37,8 @@ function register(user:RegisterUserRequest):any{
       headers:{
         'Content-Type':'application/json'
       }  
-    }).then(response=>{
+    }).then(res => res.json())
+    .then(response=>{
       console.log(response);
       actionResult.isValid = true;
     })
