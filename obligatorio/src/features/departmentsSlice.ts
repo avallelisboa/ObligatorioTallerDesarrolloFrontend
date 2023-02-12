@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit"
 import Department from "../models/entities/Department"
 
 const initialState = {
-    departments: Department[0]
+    departments: new Array<Department>()
 }
 
 const departmentsSlice = createSlice({
