@@ -13,7 +13,8 @@ function isLoginUserValid(user:LoginUser):ValidationResult{
     return new ValidationResult("The data is correct", true);
 }
 function isLogged():boolean{
-    return localStorage.getItem('apikey') != null;
+    let apikey = localStorage.getItem('apikey');
+    return apikey != 'undefined' && apikey != null;
 }
 function saveApiKey(apikey:string):ValidationResult{
     let validationResult = new ValidationResult("", true);

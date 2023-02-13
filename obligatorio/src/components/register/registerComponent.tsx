@@ -1,17 +1,34 @@
 import './registerComponent.scss'
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import store from '../../store/store';
+import departmentsSlice from '../../features/departmentsSlice';
+import { addDepartment, emptyDepartments } from '../../features/departmentsSlice';
+
 import RegisterBL from '../../businessLogic/registerBL';
+import departmentBL from '../../businessLogic/departmentsBL';
+
 import RegisterUserVM from '../../models/viewmodels/registerUserVM';
+import DepartmentEntity from '../../models/entities/Department';
+
+import Department from './department/departmentComponent';
+import City from './city/cityComponent';
 
 const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState('');
-    const [departments, setDepartments] = useState([]);
     const [cities, setCities] = useState([]);
     
-    useEffect(()=>{
-        //let departments:Array<DepartmentVM> = departmentBL.getDepartmentsList();
+    const dispatch = useDispatch();
+    const departments = useSelector((state:any)=> state.departmentsSlice.departments);
 
-    });
+    useEffect(()=>{
+        emptyDepartments();
+        departmentBL.getDepartments((parsedDepartments:Array<DepartmentEntity>)=>{
+            dispatch(addDepartment(parsedDepartments))
+        });
+        
+    },[]);
 
     
     const [isThereMessage, setIsThereMessage] = useState(false);
@@ -58,14 +75,17 @@ const Register = ()=>{
                 <fieldset>
                     <label htmlFor="departmentsInput">Departamentos</label>
                     <select name="departmentSelect">
-                        <option value="1">Montevideo</option>
+                        {
+                            departments.length > 0 ?
+                            departments.map((dep:DepartmentEntity, index:number)=>`<Department key="${index}" departmentId="${dep.departmentId}" name="${dep.name}"/>`) :
+                            <Department departmentId="1" name="Montevideo"/>
+                        }
                     </select>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="citiesInput">Ciudades</label>
                     <select name="citySelect">
-                        <option value="1">Montevideo</option>
-                        <option value="2">Pajas blancas</option>
+                        <City cityId="1" name="Montevideo"/>
                     </select>
                 </fieldset>
                 <fieldset>

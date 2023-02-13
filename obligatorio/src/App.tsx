@@ -16,8 +16,7 @@ function App() {
       </header>
       <section>
       {
-        //sessionBL.isLogged() ? <Dashboard/> : <Login/>
-        <Dashboard/>
+        sessionBL.isLogged() ? <Dashboard/> : <Login/>
       }
       </section>
     </>

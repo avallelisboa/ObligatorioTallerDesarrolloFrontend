@@ -5,24 +5,24 @@ import UsersByDepartment from '../models/viewmodels/usersByDepartmentVM';
 
 let {baseURL} = global;
 
-function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>):any{
+function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>, callbackFN:(parsedDepartments:Array<Department>)=>void){
     let departments:Array<Department> = new Array<Department>();
 
     fetch(`${baseURL}ciudades.php?departamentos.php`,{
     method: 'GET',
     headers:{
        'apikey': sessionBL.getApiKey() 
-    }})
+    }}).then(res => res.json())
         .then(response=>{
             console.log(response);
-            let objectToParse = JSON.parse(response.toString());
-            departments = departmentParsingFN(objectToParse.departamentos);
+            departments = departmentParsingFN(response.departamentos);
+            callbackFN(departments);
         })
         .catch(error=>{
             console.log(error)
-            let objectToParse = JSON.parse(error.toString());
-            departments = departmentParsingFN(objectToParse.console.error());
-        }).finally(()=>departments);
+            departments = departmentParsingFN(error);
+            departments;
+        });
 }
 
 function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToParse:Array<object>)=>Array<UsersByDepartment>):any{
