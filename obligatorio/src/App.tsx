@@ -5,10 +5,12 @@ import loginBL from './businessLogic/sessionBL';
 import sessionBL from './businessLogic/sessionBL';
 import Nav from './components/header/navComponent';
 import './App.scss';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <header>
         {
           sessionBL.isLogged() ? <Nav/> : null
@@ -19,7 +21,7 @@ function App() {
         sessionBL.isLogged() ? <Dashboard/> : <Login/>
       }
       </section>
-    </>
+    </Provider>
   );
 }
 
