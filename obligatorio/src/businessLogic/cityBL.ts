@@ -1,19 +1,26 @@
 import City from "../models/entities/City";
 import cityService from '../services/cityService';
 import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods';
+import Department from "../models/entities/Department";
 
-function getCitiesByDepartment(departmentId:number, callbackFN:(parsedCitiesArray:any)=>void){
+function getCities(callbackFN:(parsedCitiesArray:Array<City>)=>void){
+    cityService.getCities(parseCities,(parsedCities:Array<City>)=>{
+        callbackFN(parsedCities);
+    });
+}
+function getCitiesByDepartment(departmentId:number, callbackFN:(parsedCitiesArray:Array<City>)=>void){
     cityService.getCitiesByDepartment(departmentId,parseCities, (parsedCities:Array<City>)=>{
         callbackFN(parsedCities);
     });
 }
-function parseCities(cities:any){
-    let parsedCities:Array<City> = cities == null ? new Array<City>() :
-    cities.map((city:any)=>entitiesFactoryMethods.makeCity(city));
+function parseCities(citiesToParse:Array<object>){
+    let parsedCities:Array<City> = citiesToParse == null ? new Array<City>() :
+                                    citiesToParse.map((cityToParse)=>entitiesFactoryMethods.makeCity(cityToParse));
     return parsedCities;
 }
 
 const cityBL = {
+    getCities,
     getCitiesByDepartment
 };
 

@@ -25,8 +25,8 @@ function makeDepartment(department:any):Department{
 }
 function makeCity(city:any):City{
     return new City(
-        city.IdCiudad,city.nombre,city.IdDepartamento,city.codigoDepartamento,city.codigoPais,
-        city.latitud,city.longitud,city.createdAt,city.updatedAt,city.flag,city.wikiDataId
+        city.id,city.nombre,city.idDepartamento,city.codigoDepartamento,city.idPais,city.codigoPais,
+        city.latitud,city.longitud,city.createdAt,city.updatedAt,city.bandera,city.wikiDataId
     );
 }
 let entitiesFactoryMethods = {

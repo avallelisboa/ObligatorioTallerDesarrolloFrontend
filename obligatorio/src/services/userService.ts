@@ -29,11 +29,9 @@ function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callb
         }
         callbackFN(actionResult);
       })
-      .catch(error=>{
-        console.log(error);
-      });
+      .catch(error=>console.log(error));
 }
-function register(user:RegisterUserRequest):any{
+function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void){
     let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}register.php`,{
@@ -49,8 +47,8 @@ function register(user:RegisterUserRequest):any{
     })
     .catch(error=>{
       console.log(error);
-      actionResult.message = JSON.parse(error).message;
-    }).finally(()=>actionResult);
+      actionResult.message = error.message;
+    }).finally(()=>callbackFN(actionResult));
 }
 
 let userService ={

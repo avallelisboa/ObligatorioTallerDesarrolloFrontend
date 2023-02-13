@@ -10,7 +10,13 @@ function logIn(user:LoginUser, callbackFN:(result:ValidationResult)=>void){
         });
 }
 function isLoginUserValid(user:LoginUser):ValidationResult{
-    return new ValidationResult("The data is correct", true);
+    return new ValidationResult("Los datos son correctos", true);
+}
+function isUserNameValid(username:string){
+
+}
+function isPasswordValid(password:string){
+
 }
 function isLogged():boolean{
     let apikey = localStorage.getItem('apikey');

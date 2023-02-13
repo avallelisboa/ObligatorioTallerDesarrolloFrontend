@@ -12,13 +12,7 @@ function getDepartments(callbackFN:(parsedDepartments:Array<Department>)=>void){
 }
 function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
     let parsedDepartments:Array<Department> = departmentsToParse == null ? new Array<Department> : 
-    departmentsToParse.map(department =>{
-        let parsedDepartment = entitiesFactoryMethods.makeDepartment(department);
-        cityBL.getCitiesByDepartment(parsedDepartment.departmentId,(parsedCitiesArray)=>{
-            parsedDepartment.cities = parsedCitiesArray;
-        });
-        return parsedDepartment;
-    });
+    departmentsToParse.map(department =>entitiesFactoryMethods.makeDepartment(department));
     return parsedDepartments;
 }
 
