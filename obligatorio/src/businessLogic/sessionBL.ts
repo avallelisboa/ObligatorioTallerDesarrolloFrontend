@@ -2,12 +2,12 @@ import LoginUser from '../models/viewmodels/loginUserVM';
 import userService from '../services/userService';
 import ValidationResult from '../models/validationModels/actionResult';
 
-function logIn(user:LoginUser):ValidationResult{
-    let result = isLoginUserValid(user);
+function logIn(user:LoginUser, callbackFN:(result:ValidationResult)=>void){
+    let result:ValidationResult = isLoginUserValid(user);
     if(result.isValid)
-        result = userService.login(user, saveApiKey);
-
-    return result;
+        userService.login(user, saveApiKey, (result:ValidationResult)=>{
+            callbackFN(result);
+        });
 }
 function isLoginUserValid(user:LoginUser):ValidationResult{
     return new ValidationResult("The data is correct", true);

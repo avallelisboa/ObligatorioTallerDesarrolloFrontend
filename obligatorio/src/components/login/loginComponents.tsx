@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import Department from '../../models/entities/Department';
 import departmentBL from '../../businessLogic/departmentsBL';
 import { addDepartment } from '../../features/departmentsSlice';
+import ActionResult from '../../models/validationModels/actionResult';
 
 const Login = ()=>{
     const [mustShowModal, setMustShownModal] = useState(false);
@@ -44,11 +45,11 @@ const Login = ()=>{
         let user = data.userNameInput.value;
         let password = data.passwordInput.value;
 
-        let result =  await sessionBL.logIn(new LoginUserVM(user, password));
-
-        setWasThereError(!(result.isValid));
-        setIsThereMessage(true);
-        setMessage(result.message);
+        sessionBL.logIn(new LoginUserVM(user, password),(result:ActionResult)=>{
+            setWasThereError(!(result.isValid));
+            setIsThereMessage(true);
+            setMessage(result.message);
+        });        
     };
     return (
         <>
@@ -70,7 +71,7 @@ const Login = ()=>{
                 </form>
                 {
                     isThereMessage ?
-                        <p className={wasThereError ? '' : ''}>{message}</p> : null
+                        <p className={wasThereError ? 'error' : 'correct'}>{message}</p> : null
                 }
             </article>
             {

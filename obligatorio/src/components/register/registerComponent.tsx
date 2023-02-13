@@ -20,7 +20,6 @@ const Register = ()=>{
     const [cities, setCities] = useState([]);
     
     const departments = useSelector((state:any)=> state.departmentsSlice.departments);
-
     
     const [isThereMessage, setIsThereMessage] = useState(false);
     const [message, setMessage] = useState("");

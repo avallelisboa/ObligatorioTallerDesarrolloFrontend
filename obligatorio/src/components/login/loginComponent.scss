@@ -2,7 +2,7 @@ article{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     form{
@@ -34,6 +34,14 @@ article{
             text-decoration: underline;
             color:blue;
         }
+    }
+    p{
+      width: 25%;
+      padding: 10px;
+      border: 1px solid skyblue;
+      border-radius: 5px;
+      background-color: skyblue;
+      font-weight: bold;
     }
 }
 #modalArticleId{
