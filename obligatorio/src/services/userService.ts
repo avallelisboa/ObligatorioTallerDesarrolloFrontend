@@ -8,7 +8,7 @@ import ActionResult from '../models/validationModels/actionResult';
 
 let {baseURL} = global;
 
-function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):ActionResult{
+function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):any{
   let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}login.php`,{
@@ -17,19 +17,21 @@ function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult):Actio
         headers:{
           'Content-Type':'application/json'
         }  
-      }).then(response=>{
+      }).then(res => res.json())
+      .then(response=>{
         console.log(response);
-        let apikey = JSON.parse(response.toString()).apiKey;
-        actionResult = saveApikeyFN(apikey);
+        if(response.codigo == 200){
+          let apikey = response.apiKey;
+          actionResult = saveApikeyFN(apikey);
+        }else{
+          actionResult.isValid = false;
+          actionResult.message = response.mensaje;
+        }
+        callbackFN(actionResult);
       })
-      .catch(error=>{
-        console.log(error);
-        actionResult.message = JSON.parse(error).message;
-      });
-
-    return actionResult;
+      .catch(error=>console.log(error));
 }
-function register(user:RegisterUserRequest):ActionResult{
+function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void){
     let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}register.php`,{
@@ -38,16 +40,15 @@ function register(user:RegisterUserRequest):ActionResult{
       headers:{
         'Content-Type':'application/json'
       }  
-    }).then(response=>{
+    }).then(res => res.json())
+    .then(response=>{
       console.log(response);
       actionResult.isValid = true;
     })
     .catch(error=>{
       console.log(error);
-      actionResult.message = JSON.parse(error).message;
-    });
-
-    return actionResult;
+      actionResult.message = error.message;
+    }).finally(()=>callbackFN(actionResult));
 }
 
 let userService ={

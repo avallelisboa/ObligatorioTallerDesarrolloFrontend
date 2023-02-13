@@ -1,4 +1,7 @@
+import City from './City'
+
 class Department{
+
     constructor(
         public departmentId:number,
         public name:string,
@@ -15,5 +18,6 @@ class Department{
         public wikiDataId: string
     ){}
 }
+
 
 export default Department;

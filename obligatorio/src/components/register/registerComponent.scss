@@ -1,9 +1,43 @@
-#registerFormId{
-    display:block;
-    width: 50%;
-    fieldset{
-        input[type="submit"]{
-            width: 30%;
+article{
+    #registerFormId{
+        display:block;
+        width: 50%;
+        fieldset{
+            margin-top: 5px;
+            margin-bottom: 5px;
+            input{
+                padding: 5px;
+            }
+            select{
+                padding: 3px;
+                width: 50%;
+            }
+            input[type="submit"]{
+                width: 30%;
+                color:white;
+                font-weight: bold;
+                background-color: dodgerblue;
+                border: 1px solid gray;
+                border-radius: 3px;
+            }
+        }
+    }
+    #registerMessageDiv{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        overflow: auto;
+        justify-content: center;
+        align-content: center;
+        p{
+            width: 50%;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid skyblue;
+            border-radius: 5px;
+            background-color: skyblue;
+            font-weight: bold;
         }
     }
 }

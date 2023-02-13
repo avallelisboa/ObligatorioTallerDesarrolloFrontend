@@ -1,12 +1,26 @@
 import LoginUser from '../models/viewmodels/loginUserVM';
+import userService from '../services/userService';
 import ValidationResult from '../models/validationModels/actionResult';
 
-
+function logIn(user:LoginUser, callbackFN:(result:ValidationResult)=>void){
+    let result:ValidationResult = isLoginUserValid(user);
+    if(result.isValid)
+        userService.login(user, saveApiKey, (result:ValidationResult)=>{
+            callbackFN(result);
+        });
+}
 function isLoginUserValid(user:LoginUser):ValidationResult{
-    return new ValidationResult("The data is correct", true);
+    return new ValidationResult("Los datos son correctos", true);
+}
+function isUserNameValid(username:string){
+
+}
+function isPasswordValid(password:string){
+
 }
 function isLogged():boolean{
-    return localStorage.getItem('apikey') != null;
+    let apikey = localStorage.getItem('apikey');
+    return apikey != 'undefined' && apikey != null;
 }
 function saveApiKey(apikey:string):ValidationResult{
     let validationResult = new ValidationResult("", true);
@@ -27,6 +41,7 @@ function logOut(){
 }
 
 let sessionBL = {
+    logIn,
     isLoginUserValid,
     isLogged,
     saveApiKey,

@@ -1,7 +1,17 @@
-
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
 
 h1, h2{
   text-align: center;
   color: gray;
+}
+
+.error{
+  background-color: red !important;
+  color: white !important;
+}
+.correct{
+  background-color: green !important;
+  color: white !important;
 }
 
