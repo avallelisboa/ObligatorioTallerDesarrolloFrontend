@@ -6,7 +6,7 @@ import UsersByDepartment from '../models/viewmodels/usersByDepartmentVM';
 let {baseURL} = global;
 
 function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>, callbackFN:(parsedDepartments:Array<Department>)=>void){
-    let departments:Array<Department> = new Array<Department>();
+    let departments:Array<Department>;
 
     fetch(`${baseURL}departamentos.php`,{
     method: 'GET',

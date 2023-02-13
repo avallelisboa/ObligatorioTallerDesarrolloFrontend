@@ -2,6 +2,7 @@ import Movement from '../../models/entities/Movement';
 import Income from '../../models/entities/Income';
 import Expense from '../../models/entities/Expense';
 import Department from '../../models/entities/Department';
+import City from '../../models/entities/City';
 
 function makeMovement(movement:any):Movement{
     if(movement.total > 0)
@@ -22,11 +23,18 @@ function makeDepartment(department:any):Department{
         department.updatedAt,department.bandera,department.wikiDataId
     );
 }
+function makeCity(city:any):City{
+    return new City(
+        city.IdCiudad,city.nombre,city.IdDepartamento,city.codigoDepartamento,city.codigoPais,
+        city.latitud,city.longitud,city.createdAt,city.updatedAt,city.flag,city.wikiDataId
+    );
+}
 let entitiesFactoryMethods = {
     makeMovement,
     makeIncome,
     makeExpense,
-    makeDepartment
+    makeDepartment,
+    makeCity
 };
 
 export default entitiesFactoryMethods;

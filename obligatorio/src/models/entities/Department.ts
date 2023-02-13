@@ -1,4 +1,8 @@
+import City from './City'
+
 class Department{
+    public cities:Array<City>;
+    
     constructor(
         public departmentId:number,
         public name:string,
@@ -13,7 +17,10 @@ class Department{
         public updatedAt:Date,
         public flag:number,
         public wikiDataId: string
-    ){}
+    ){
+        this.cities = new Array<City>();
+    }
 }
+
 
 export default Department;
