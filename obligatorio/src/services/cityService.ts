@@ -3,14 +3,25 @@ import global from './global';
 
 let{baseURL} = global;
 
-function getCities(){
-    fetch(`${baseURL}ciudades.php?ciudades`)
-        .then(response=>console.log(response))
-        .catch(error=>console.log(error));
+function getCities(parseCityFN:(cities:any)=>Array<City>, callbackFN:(parsedCities:Array<City>)=>void){
+    let cities:Array<City>;
+    fetch(`${baseURL}ciudades.php`)
+    .then(response=>response.json())
+    .then(response=>{
+        console.log(response);
+        cities = parseCityFN(response.ciudades);
+        callbackFN(cities);
+    })
+    .catch(error=>console.log(error));
 }
-function getCitiesByDepartment(departmentId:number){
+function getCitiesByDepartment(departmentId:number, parseCityFN:(cities:any)=>Array<City>,callbackFN:(parsedCities:Array<City>)=>void):void{
+    let cities:Array<City>;
     fetch(`${baseURL}ciudades.php?idDepartamento=${departmentId}`)
-        .then(response=>console.log(response))
+        .then(response=>response.json())
+        .then(response=>{
+            cities = parseCityFN(response);
+            callbackFN(cities);
+        })
         .catch(error=>console.log(error));
 }
 
@@ -18,4 +29,5 @@ let cityService = {
     getCities,
     getCitiesByDepartment
 };
+
 export default cityService;
