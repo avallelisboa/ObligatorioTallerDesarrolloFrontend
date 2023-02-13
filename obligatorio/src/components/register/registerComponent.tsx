@@ -19,16 +19,7 @@ const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState('');
     const [cities, setCities] = useState([]);
     
-    const dispatch = useDispatch();
     const departments = useSelector((state:any)=> state.departmentsSlice.departments);
-
-    useEffect(()=>{
-        emptyDepartments();
-        departmentBL.getDepartments((parsedDepartments:Array<DepartmentEntity>)=>{
-            dispatch(addDepartment(parsedDepartments))
-        });
-        
-    },[]);
 
     
     const [isThereMessage, setIsThereMessage] = useState(false);

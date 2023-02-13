@@ -7,6 +7,10 @@ import Register from '../register/registerComponent'
 
 import sessionBL from '../../businessLogic/sessionBL';
 import LoginUserVM from '../../models/viewmodels/loginUserVM';
+import { useDispatch } from 'react-redux';
+import Department from '../../models/entities/Department';
+import departmentBL from '../../businessLogic/departmentsBL';
+import { addDepartment } from '../../features/departmentsSlice';
 
 const Login = ()=>{
     const [mustShowModal, setMustShownModal] = useState(false);
@@ -15,8 +19,15 @@ const Login = ()=>{
     const [message, setMessage] = useState("");
     const [wasThereError, setWasThereError] = useState(false);
 
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        departmentBL.getDepartments((parsedDepartments:Array<Department>)=>{
+            dispatch(addDepartment(JSON.stringify(parsedDepartments)));
+        });
+    },[]);
     useEffect(() =>{
-        setMustShownModal(openModal);
+       setMustShownModal(openModal);
     },[openModal]);
 
     const OpenCloseModal = ()=>{

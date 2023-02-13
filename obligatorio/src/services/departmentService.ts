@@ -8,7 +8,7 @@ let {baseURL} = global;
 function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>, callbackFN:(parsedDepartments:Array<Department>)=>void){
     let departments:Array<Department> = new Array<Department>();
 
-    fetch(`${baseURL}ciudades.php?departamentos.php`,{
+    fetch(`${baseURL}departamentos.php`,{
     method: 'GET',
     headers:{
        'apikey': sessionBL.getApiKey() 
@@ -19,9 +19,7 @@ function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>
             callbackFN(departments);
         })
         .catch(error=>{
-            console.log(error)
-            departments = departmentParsingFN(error);
-            departments;
+            console.log(error);
         });
 }
 

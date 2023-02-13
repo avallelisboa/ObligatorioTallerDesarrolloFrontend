@@ -1,6 +1,7 @@
 import Department from '../models/entities/Department';
 import DepartmentVM from '../models/viewmodels/departmentVM';
 import departmentService from '../services/departmentService';
+import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods';
 
 function getDepartments(callbackFN:(parsedDepartments:Array<Department>)=>void){
     departmentService.getDepartments(parseDepartments, (parsedDepartments:Array<Department>)=>{
@@ -10,7 +11,7 @@ function getDepartments(callbackFN:(parsedDepartments:Array<Department>)=>void){
 }
 function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
     let parsedDepartments:Array<Department> = departmentsToParse == null ? new Array<Department> : departmentsToParse.map(department =>{
-        return new Department(0,'',0,'',0,'','',0,0,new Date(),new Date(),0,'');
+        return entitiesFactoryMethods.makeDepartment(department);
     });
     return parsedDepartments;
 }
