@@ -41,19 +41,24 @@ const Register = ()=>{
     const [message, setMessage] = useState("");
     const [wasThereError, setWasThereError] = useState(false);
 
+    const userNameInput = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
+    const verifyPasswordInput = useRef<HTMLInputElement>(null);
+    const departmentIdInput = useRef<HTMLSelectElement>(null);
+    const cityIdInput = useRef<HTMLSelectElement>(null);
+
     const submitForm = async (event:any)=>{
         event.preventDefault();
 
         setMessage('');
         setIsThereMessage(false);
         setWasThereError(false);
-        
-        let data = event.target;
-        let userName = data.userInput.value;
-        let password = data.passwordInput.value;
-        let verifyPassword = data.verifyPasswordInput.value;
-        let departmentId = data.departmentSelect.value;
-        let cityId = data.departmentSelect.value;
+
+        let userName = userNameInput.current?.value as string;
+        let password = passwordInput.current?.value as string;
+        let verifyPassword = verifyPasswordInput.current?.value as string;
+        let departmentId = parseInt(departmentIdInput.current?.value as string);
+        let cityId = parseInt(cityIdInput.current?.value as string);
 
         let userToRegister = new RegisterUserVM(userName,password,verifyPassword,departmentId,cityId);
         RegisterBL.registerUser(userToRegister, (result)=>{
@@ -69,19 +74,19 @@ const Register = ()=>{
                 <legend>Registro</legend>
                 <fieldset>
                     <label htmlFor="userInput">Usuario</label>
-                    <input type="text" name="userInput" id="userInput" required/>
+                    <input type="text" name="userInput" ref={userNameInput} id="userInput" required/>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="passwordInput">Contraseña</label>
-                    <input type="password" name="passwordInput" id="passwordInput" required/>
+                    <input type="password" name="passwordInput" ref={passwordInput} id="passwordInput" required/>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="verifyPasswordInput">Confirmar contraseña</label>
-                    <input type="password" name="verifyPasswordInput" id="verifyPasswordInput" required/>
+                    <input type="password" name="verifyPasswordInput" ref={verifyPasswordInput} id="verifyPasswordInput" required/>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="departmentsInput">Departamentos</label>
-                    <select name="departmentSelect" required>
+                    <select name="departmentSelect" ref={departmentIdInput} required>
                         {
                             departments.length > 0 ?
                             departments.map((dep:DepartmentEntity, index:number)=><Department key={index} departmentId={dep.departmentId} name={dep.name}/>) :
@@ -91,7 +96,7 @@ const Register = ()=>{
                 </fieldset>
                 <fieldset>
                     <label htmlFor="citiesInput">Ciudades</label>
-                    <select name="citySelect" required>
+                    <select name="citySelect" ref={cityIdInput} required>
                         {
                             cities.length > 0 ?
                             cities.map((cit:CityEntity, index:number)=><City key={index} cityId={cit.cityId} name={cit.name}/>) :

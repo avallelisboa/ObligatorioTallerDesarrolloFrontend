@@ -1,15 +1,16 @@
-import LoginUser from '../models/viewmodels/loginUserVM';
+import LoginUserVM from '../models/viewmodels/loginUserVM';
 import userService from '../services/userService';
 import ValidationResult from '../models/validationModels/actionResult';
+import RequestFactoryMethod from '../factories/request/requestFactoryMethods';
 
-function logIn(user:LoginUser, callbackFN:(result:ValidationResult)=>void){
+function logIn(user:LoginUserVM, callbackFN:(result:ValidationResult)=>void){
     let result:ValidationResult = isLoginUserValid(user);
     if(result.isValid)
-        userService.login(user, saveApiKey, (result:ValidationResult)=>{
+        userService.login(RequestFactoryMethod.makeLoginUserRequest(user), saveApiKey, (result:ValidationResult)=>{
             callbackFN(result);
         });
 }
-function isLoginUserValid(user:LoginUser):ValidationResult{
+function isLoginUserValid(user:LoginUserVM):ValidationResult{
     return new ValidationResult("Los datos son correctos", true);
 }
 function isUserNameValid(username:string){
