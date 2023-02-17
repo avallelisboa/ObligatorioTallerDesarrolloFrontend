@@ -8,7 +8,7 @@ import ActionResult from '../models/validationModels/actionResult';
 
 let {baseURL} = global;
 
-function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):any{
+function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):void{
   let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}login.php`,{
@@ -23,15 +23,15 @@ function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callb
         if(response.codigo == 200){
           let apikey = response.apiKey;
           actionResult = saveApikeyFN(apikey);
-        }else{
-          actionResult.isValid = false;
+        }else
           actionResult.message = response.mensaje;
-        }
-        callbackFN(actionResult);
       })
-      .catch(error=>console.log(error));
+      .catch(error=>{
+        console.log(error);
+        actionResult.message = error.message;
+      }).finally(()=>callbackFN(actionResult));
 }
-function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void){
+function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("",false);
 
     fetch(`${baseURL}register.php`,{
@@ -43,7 +43,9 @@ function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>vo
     }).then(res => res.json())
     .then(response=>{
       console.log(response);
-      actionResult.isValid = true;
+      if(response.codigo == 200)
+        actionResult.isValid = true;
+      actionResult.message = response.mensaje;
     })
     .catch(error=>{
       console.log(error);

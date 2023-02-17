@@ -3,10 +3,18 @@ import global from "./global";
 
 let {baseURL} = global;
 
-function getATMs(){
+function getATMs(parseFN:(atmsToParse:Array<object>)=>Array<ATM>,callbackFN:(atms:Array<ATM>)=>void):void{
     fetch(`${baseURL}cajeros.php`)
-        .then(response=>console.log(response))
-        .catch(error=>console.log(error));
+        .then(res => res.json())
+        .then(response=>{
+            console.log(response);
+            
+            let atms = parseFN(response);
+            callbackFN(atms);
+        })
+        .catch(error=>{
+            console.log(error);
+        });
 }
 
 let atmService ={

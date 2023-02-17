@@ -5,7 +5,7 @@ import UsersByDepartment from '../models/viewmodels/usersByDepartmentVM';
 
 let {baseURL} = global;
 
-function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>, callbackFN:(parsedDepartments:Array<Department>)=>void){
+function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>Array<Department>, callbackFN:(parsedDepartments:Array<Department>)=>void):void{
     let departments:Array<Department>;
 
     fetch(`${baseURL}departamentos.php`,{
@@ -23,7 +23,7 @@ function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>
         });
 }
 
-function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToParse:Array<object>)=>Array<UsersByDepartment>):any{
+function getUsersByDepartment(usersByDepartmentParsingFN:(usersByDepartmentToParse:Array<object>)=>Array<UsersByDepartment>):void{
     let usersByDepartment:Array<UsersByDepartment> = new Array<UsersByDepartment>();
   
     fetch(`${baseURL}usuariosPorDepartamento.php`)
