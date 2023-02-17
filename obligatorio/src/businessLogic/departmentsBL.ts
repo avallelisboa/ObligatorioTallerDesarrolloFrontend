@@ -6,7 +6,6 @@ import cityBL from './cityBL';
 
 function getDepartments(callbackFN:(parsedDepartments:Array<Department>)=>void){
     departmentService.getDepartments(parseDepartments,callbackFN);
-    
 }
 function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
     let parsedDepartments:Array<Department> = departmentsToParse == null ? new Array<Department> : 

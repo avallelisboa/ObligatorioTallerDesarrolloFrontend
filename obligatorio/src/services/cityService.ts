@@ -21,6 +21,7 @@ function getCitiesByDepartment(departmentId:number, parseCityFN:(cities:any)=>Ar
     fetch(`${baseURL}ciudades.php?idDepartamento=${departmentId}`)
         .then(response=>response.json())
         .then(response=>{
+            console.log(response);
             cities = parseCityFN(response);
             callbackFN(cities);
         })
