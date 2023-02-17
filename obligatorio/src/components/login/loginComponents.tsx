@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import './loginComponent.scss'
 import Register from '../register/registerComponent'
@@ -28,6 +28,10 @@ const Login = ()=>{
     const OpenCloseModal = ()=>{
         setOpenModal(!openModal);
     };
+
+    const userNameInput = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
+
     const logIn = async (event:any)=>{
         event.preventDefault();
         
@@ -35,9 +39,8 @@ const Login = ()=>{
         setIsThereMessage(false);
         setWasThereError(false);
 
-        let data = event.target;
-        let user = data.userNameInput.value;
-        let password = data.passwordInput.value;
+        let user = userNameInput.current?.value as string;
+        let password = passwordInput.current?.value as string;
         
         sessionBL.logIn(new LoginUserVM(user, password),(result:ActionResult)=>{
             setWasThereError(!(result.isValid));
@@ -52,11 +55,11 @@ const Login = ()=>{
                     <legend>Iniciar Sesión</legend>
                     <fieldset>
                         <label htmlFor="userNameInput">Usuario</label>
-                        <input type="text" name="userNameInput" id="userNameInput" required/>
+                        <input type="text" name="userNameInput" ref={userNameInput} id="userNameInput" required/>
                     </fieldset>
                     <fieldset>
                         <label htmlFor="passwordInput">Contraseña</label>
-                        <input type="password" name="passwordInput" id="passwordInput" required/>
+                        <input type="password" name="passwordInput" ref={passwordInput} id="passwordInput" required/>
                     </fieldset>
                     <fieldset>
                         <input type="submit" value="Iniciar sesión"/>

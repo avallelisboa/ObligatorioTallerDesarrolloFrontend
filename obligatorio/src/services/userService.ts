@@ -1,5 +1,5 @@
 import User from "../models/entities/User";
-import LoginUser from '../models/viewmodels/loginUserVM';
+import LoginUserRequest from "../models/request/LoginUserRequest";
 import RegisterUser from '../models/viewmodels/registerUserVM';
 import RegisterUserRequest from '../models/request/registerUserRequest';
 import global from "./global";
@@ -8,12 +8,11 @@ import ActionResult from '../models/validationModels/actionResult';
 
 let {baseURL} = global;
 
-function login(user:LoginUser, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):void{
+function login(user:LoginUserRequest, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):void{
   let actionResult:ActionResult = new ActionResult("",false);
-
     fetch(`${baseURL}login.php`,{
         method: 'POST',
-        body: JSON.stringify(user),
+        body: JSON.parse(JSON.stringify(user)),
         headers:{
           'Content-Type':'application/json'
         }  
@@ -36,7 +35,7 @@ function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>vo
 
     fetch(`${baseURL}register.php`,{
       method: 'POST',
-      body: JSON.stringify(user),
+      body: JSON.parse(JSON.stringify(user)),
       headers:{
         'Content-Type':'application/json'
       }  
