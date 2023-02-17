@@ -5,9 +5,7 @@ import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods
 import cityBL from './cityBL';
 
 function getDepartments(callbackFN:(parsedDepartments:Array<Department>)=>void){
-    departmentService.getDepartments(parseDepartments, (parsedDepartments:Array<Department>)=>{
-        callbackFN(parsedDepartments);
-    });
+    departmentService.getDepartments(parseDepartments,callbackFN);
     
 }
 function parseDepartments(departmentsToParse:Array<object>):Array<Department>{
