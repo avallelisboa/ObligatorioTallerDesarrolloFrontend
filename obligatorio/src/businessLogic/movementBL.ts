@@ -6,21 +6,22 @@ import RequestFactoryMethod from '../factories/request/requestFactoryMethods';
 import ActionResult from "../models/validationModels/actionResult";
 import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods';
 
-function addMovement(movementVM:AddMovementVM):ActionResult{
-    let actionResult = new ActionResult("", false);
-    let {isValid,message} = isMovementValid(movementVM);
-    if(isValid){
+function addMovement(movementVM:AddMovementVM, callbackFN:(result:ActionResult)=>void){
+    let result = isMovementValid(movementVM);
+    if(result.isValid){
         let movementRequest = RequestFactoryMethod.makeAddMovementRequest(movementVM);
-        actionResult = MovementService.addMovement(movementRequest);
-    }else{
-        actionResult.message = message;
-    }
-    
-    return actionResult;
+        MovementService.addMovement(movementRequest, callbackFN);
+    }else
+        callbackFN(result);
 }
-function getMovements(userId:number):Array<Movement>{
-    let movementsJSON = MovementService.getMovements(userId);
-    let movements:Array<Movement> = movementsJSON.map((movement:any) => entitiesFactoryMethods.makeMovement(movement));
+function getMovements(userId:number, callbackFN:(movements:Array<Movement>)=>void){
+    MovementService.getMovements(userId, parseMovements,callbackFN);    
+}
+function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>void){
+    MovementService.deleteMovement(movementId,callbackFN);
+}
+function parseMovements(movementsToParse:Array<object>):Array<Movement>{
+    let movements:Array<Movement> = movementsToParse.map((movement:any) => entitiesFactoryMethods.makeMovement(movement));
     return movements;
 }
 
@@ -30,6 +31,8 @@ function isMovementValid(movement:AddMovementVM):ValidationResult{
 
 let MovementBL ={
     addMovement,
+    getMovements,
+    deleteMovement,
     isMovementValid
 }
 

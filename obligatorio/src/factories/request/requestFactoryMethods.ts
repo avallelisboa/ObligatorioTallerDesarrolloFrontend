@@ -6,10 +6,16 @@ import moment from "moment";
 
 function makeAddMovementRequest(addMovementVM:AddMovementVM):AddMovementRequest{
     let date = new Date(moment('DD/MM/YYYY').toString());    
-    return new AddMovementRequest(addMovementVM.idUsuario,addMovementVM.concepto,addMovementVM.total,addMovementVM.medio,date);
+    return new AddMovementRequest(
+        addMovementVM.idUsuario,addMovementVM.concepto,
+        addMovementVM.total,addMovementVM.medio,date
+    );
 }
 function makeRegisterUserRequest(registerUserVM:RegisterUserVM):RegisterUserRequest{
-    return new RegisterUserRequest(registerUserVM.userName,registerUserVM.password,registerUserVM.departmentId,registerUserVM.cityId);
+    return new RegisterUserRequest(
+        registerUserVM.userName,registerUserVM.password,
+        registerUserVM.departmentId,registerUserVM.cityId
+    );
 }
 
 let RequestFactoryMethod ={

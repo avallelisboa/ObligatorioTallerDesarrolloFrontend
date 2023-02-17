@@ -4,15 +4,23 @@ import global from "./global";
 
 let{baseURL} = global;
 
-function getHeadings(){
+function getHeadings(parseFN:(headingsToParse:Array<object>)=>Array<Heading>,callbackFN:(headings:Array<Heading>)=>void):void{
+    let headings:Array<Heading> = new Array<Heading>();
     fetch(`${baseURL}rubros.php`,{
         method: 'GET',
         headers:{
             'Content-Type': 'application/json',
             'apikey': sessionBL.getApiKey()
         } 
-    }).then(response => console.log(response))
-      .catch(error => console.log(error));
+    }).then((res)=>res.json())
+    .then(response => {
+        console.log(response);
+        parseFN(response);
+        callbackFN(headings);
+    })
+    .catch(error => {
+        console.log(error);
+    });
 }
 
 let headingService = {
