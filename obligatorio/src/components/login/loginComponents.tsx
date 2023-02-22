@@ -13,7 +13,7 @@ import departmentBL from '../../businessLogic/departmentsBL';
 import { addDepartment } from '../../features/departmentsSlice';
 import ActionResult from '../../models/validationModels/actionResult';
 
-const Login = ()=>{
+const Login = (props:any)=>{
     const [mustShowModal, setMustShownModal] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [isThereMessage, setIsThereMessage] = useState(false);
@@ -46,6 +46,9 @@ const Login = ()=>{
             setWasThereError(!(result.isValid));
             setIsThereMessage(true);
             setMessage(result.message);
+            
+            if(result.isValid)
+                props.setIsLoggedFN(result.isValid);
         });        
     };
     return (

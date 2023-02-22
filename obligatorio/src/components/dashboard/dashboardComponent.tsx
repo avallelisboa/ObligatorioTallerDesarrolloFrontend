@@ -4,12 +4,14 @@ import Nav from '../header/navComponent';
 import Graphics from './graphics/graphicsComponent';
 import Movements from './movements/movementsComponent';
 
-const Dashboard = ()=>{
+const Dashboard = (props:any)=>{
+
+
     return (
     <>
         <BrowserRouter>
         <header>
-            <Nav/>
+            <Nav setIsLoggedFN={props.setIsLoggedFN} />
         </header>
         <section>
             <h2>Dashboard prueba</h2>
