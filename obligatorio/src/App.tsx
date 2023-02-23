@@ -22,11 +22,9 @@ function App() {
 
   return (
     <Provider store={store}>
-      <section>
       {
         isLoggedState ? <Dashboard setIsLoggedFN={setIsLoggedFN}/> : <Login setIsLoggedFN={setIsLoggedFN}/>
       }
-      </section>
     </Provider>
   );
 }

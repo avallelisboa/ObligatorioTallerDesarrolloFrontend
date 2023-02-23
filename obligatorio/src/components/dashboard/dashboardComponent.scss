@@ -1,0 +1,18 @@
+header{
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    section{
+        margin: 0px;
+        padding: 0px;
+        button{
+            padding: 20px;
+            background-color: darkgray;
+            color:lightgray;
+            font-weight: bolder;
+            font-size: 130%;
+        }
+    }
+}
