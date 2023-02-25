@@ -19,8 +19,8 @@ import City from './city/cityComponent';
 
 const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState('');
-    const [departments, setDepartments] = useState(Array<DepartmentEntity>)
-    const [cities, setCities] = useState(Array<CityEntity>);
+    const departments = JSON.parse(useSelector((state:any) => state.departments.departments));
+    const cities = JSON.parse(useSelector((state:any) => state.departments.cities));
     const [selectedDepartment, setSelectedDepartment] = useState(new DepartmentEntity(0,"",0,"",0,"","",0,0,new Date(),new Date(),0,""));
     const [citiesInSelectedDepartment, setCitiesInSelectedDepartment] = useState(Array<CityEntity>);
 
@@ -34,24 +34,13 @@ const Register = ()=>{
         };
     };
     
-    const dispatch = useDispatch();
-
     useEffect(()=>{
-        let citiesInDepartment:Array<CityEntity> = cities.filter((cit)=>cit.departmentId == selectedDepartment.departmentId);
+        setSelectedDepartment(departments[0]);
+    },[]);
+    useEffect(()=>{
+        let citiesInDepartment:Array<CityEntity> = cities.filter((cit:any)=>cit.departmentId == selectedDepartment.departmentId);
         setCitiesInSelectedDepartment(citiesInDepartment);
     },[selectedDepartment]);
-    useEffect(()=>{
-        departmentBL.getDepartments((parsedDepartments:Array<DepartmentEntity>)=>{
-            dispatch(addDepartment(JSON.stringify(parsedDepartments)));
-            setDepartments(parsedDepartments);
-            
-            cityBL.getCities((parsedCities)=>{
-                setCities(parsedCities);
-            });        
-        });
-        
-    },[]);
-    //const departments = useSelector((state:any)=> state.departmentsSlice.departments);
     
     const [isThereMessage, setIsThereMessage] = useState(false);
     const [message, setMessage] = useState("");

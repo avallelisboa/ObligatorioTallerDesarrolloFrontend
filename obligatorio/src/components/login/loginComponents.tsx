@@ -2,16 +2,19 @@ import React from 'react';
 
 import { useState, useEffect, useRef } from 'react';
 
+import store from '../../store/store';
+import { useDispatch, useSelector} from 'react-redux';
+
 import './loginComponent.scss'
 import Register from '../register/registerComponent'
 
 import sessionBL from '../../businessLogic/sessionBL';
 import LoginUserVM from '../../models/viewmodels/loginUserVM';
-import { useDispatch } from 'react-redux';
 import Department from '../../models/entities/Department';
 import departmentBL from '../../businessLogic/departmentsBL';
-import { addDepartment } from '../../features/departmentsSlice';
+import { addCity, addDepartment } from '../../features/departmentsSlice';
 import ActionResult from '../../models/validationModels/actionResult';
+import cityBL from '../../businessLogic/cityBL';
 
 const Login = (props:any)=>{
     const [mustShowModal, setMustShownModal] = useState(false);
@@ -19,8 +22,17 @@ const Login = (props:any)=>{
     const [isThereMessage, setIsThereMessage] = useState(false);
     const [message, setMessage] = useState("");
     const [wasThereError, setWasThereError] = useState(false);
-
+    const dispatch = useDispatch();
     
+    useEffect(()=>{
+        departmentBL.getDepartments((parsedDepartments:Array<Department>)=>{
+            store.dispatch(addDepartment(JSON.stringify(parsedDepartments)));
+            
+            cityBL.getCities((parsedCities)=>{
+                store.dispatch(addCity(JSON.stringify(parsedCities)));
+            });
+        });
+    },[]);
     useEffect(() =>{
        setMustShownModal(openModal);
     },[openModal]);

@@ -4,7 +4,7 @@ import AddMovementVM from '../models/viewmodels/addMovementVM';
 import MovementService from "../services/movementService";
 import RequestFactoryMethod from '../factories/request/requestFactoryMethods';
 import ActionResult from "../models/validationModels/actionResult";
-import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods';
+import entitiesFactoryMethods from "../factories/entities/entitiesFactoryMethods";
 import sessionBL from "./sessionBL";
 
 function addMovement(movementVM:AddMovementVM, callbackFN:(result:ActionResult)=>void){

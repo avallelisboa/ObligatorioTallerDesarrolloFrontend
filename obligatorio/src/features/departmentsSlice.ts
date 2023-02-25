@@ -1,22 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit"
-import Department from "../models/entities/Department"
-
-const initialState = {
-    departments: []
-}
 
 const departmentsSlice = createSlice({
     name: "departments",
-    initialState,
+    initialState: {
+        departments: [],
+        cities:[]
+    },
     reducers:{
-        addDepartment: (state,action) =>{
+        addDepartment: (state,action)=>{
             state.departments = action.payload;
         },        
-        emptyDepartments: (state) =>{
+        emptyDepartments: (state)=>{
             state.departments.splice(0,state.departments.length);
+        },
+        addCity: (state, action)=>{
+            state.cities = action.payload;
+        },
+        emptyCities: (state, action)=>{
+            state.cities.splice(0,state.cities.length);
         }
     }
 });
 
-export const {addDepartment, emptyDepartments} = departmentsSlice.actions;
+export const {addDepartment, emptyDepartments, addCity, emptyCities} = departmentsSlice.actions;
 export default departmentsSlice.reducer;
