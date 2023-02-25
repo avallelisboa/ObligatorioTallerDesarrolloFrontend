@@ -112,13 +112,13 @@ const Register = ()=>{
                 <fieldset>
                     <input type="submit" value="Registrarse"/>
                 </fieldset>                
+                <div id="registerMessageDiv">
+                    {
+                        isThereMessage ?
+                            <p className={wasThereError ? 'error' : 'correct'}>{message}</p> : null
+                    }
+                </div>
             </form>
-            <div id="registerMessageDiv">
-                {
-                    isThereMessage ?
-                        <p className={wasThereError ? 'error' : 'correct'}>{message}</p> : null
-                }
-            </div>
         </>
     );
 }

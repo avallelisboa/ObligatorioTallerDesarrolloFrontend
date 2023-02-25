@@ -16,7 +16,7 @@ const departmentsSlice = createSlice({
         addCity: (state, action)=>{
             state.cities = action.payload;
         },
-        emptyCities: (state, action)=>{
+        emptyCities: (state)=>{
             state.cities.splice(0,state.cities.length);
         }
     }

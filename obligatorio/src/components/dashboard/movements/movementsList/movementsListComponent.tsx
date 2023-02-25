@@ -1,29 +1,29 @@
 import React,{useEffect, useState} from 'react'
-import MovementBL from '../../../../businessLogic/movementBL';
-import sessionBL from '../../../../businessLogic/sessionBL';
+
 import Movement from '../../../../models/entities/Movement';
 import MoveElementList from './movementElementList/moveElementListComponent';
 
+import store from '../../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMovement as deleteMovementReducer } from '../../../../features/movementsSlice';
+
+import sessionBL from '../../../../businessLogic/sessionBL';
+import MovementBL from '../../../../businessLogic/movementBL';
+
 const MovementsList = () => {
-  const [movements, setMovements] = useState(Array<Movement>);
+  const movements = JSON.parse(useSelector((state:any) => state.movements.movements));
 
   useEffect(()=>{
     let userId = sessionBL.getUserId();
-    MovementBL.getMovements((movements)=>setMovements(movements));   
   },[]);
+
+  const dispatch = useDispatch();
 
   const deleteMovement = (movementId:number)=>{
     MovementBL.deleteMovement(movementId,(result)=>{
       console.log(result);
-        let _movements = movements;
-        let movementsLength = _movements.length;
-        for(let i = 0; i < movementsLength;i++){
-          if(_movements[i].movementId == movementId){
-            _movements.splice(i,1);
-            break;
-          }
-        }
-        setMovements(_movements);
+      
+      store.dispatch(deleteMovementReducer(movementId));
     });
   };
 
@@ -45,7 +45,7 @@ const MovementsList = () => {
           </thead>
           <tbody>
             {
-              movements.map((movement)=> <MoveElementList key={movement.movementId} movement={movement} deleteMovement={deleteMovement}/>)
+              movements.map((movement:Movement)=><MoveElementList key={movement.movementId} movement={movement} deleteMovement={deleteMovement}/>)
             }
           </tbody>
         </table>

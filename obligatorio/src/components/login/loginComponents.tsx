@@ -12,7 +12,7 @@ import sessionBL from '../../businessLogic/sessionBL';
 import LoginUserVM from '../../models/viewmodels/loginUserVM';
 import Department from '../../models/entities/Department';
 import departmentBL from '../../businessLogic/departmentsBL';
-import { addCity, addDepartment } from '../../features/departmentsSlice';
+import { addCity, addDepartment, emptyCities, emptyDepartments } from '../../features/departmentsSlice';
 import ActionResult from '../../models/validationModels/actionResult';
 import cityBL from '../../businessLogic/cityBL';
 
@@ -26,9 +26,10 @@ const Login = (props:any)=>{
     
     useEffect(()=>{
         departmentBL.getDepartments((parsedDepartments:Array<Department>)=>{
-            store.dispatch(addDepartment(JSON.stringify(parsedDepartments)));
-            
+            store.dispatch(emptyDepartments());
+            store.dispatch(addDepartment(JSON.stringify(parsedDepartments)));            
             cityBL.getCities((parsedCities)=>{
+                store.dispatch(emptyCities());
                 store.dispatch(addCity(JSON.stringify(parsedCities)));
             });
         });
