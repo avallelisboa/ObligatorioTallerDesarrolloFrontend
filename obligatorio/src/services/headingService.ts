@@ -10,7 +10,7 @@ function getHeadings(parseFN:(headingsToParse:Array<object>)=>Array<Heading>,cal
         method: 'GET',
         headers:{
             'Content-Type': 'application/json',
-            'apikey': sessionBL.getApiKey()
+            'apikey': `${sessionBL.getApiKey()}`
         } 
     }).then((res)=>res.json())
     .then(response => {
