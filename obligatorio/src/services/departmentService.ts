@@ -11,7 +11,7 @@ function getDepartments(departmentParsingFN:(departmentsToParse:Array<object>)=>
     fetch(`${baseURL}departamentos.php`,{
     method: 'GET',
     headers:{
-       'apikey': sessionBL.getApiKey() 
+       'apikey': `${sessionBL.getApiKey()}` 
     }}).then(res => res.json())
         .then(response=>{
             console.log(response);

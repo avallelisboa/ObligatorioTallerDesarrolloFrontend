@@ -1,4 +1,4 @@
 let global ={
-    baseURL: "https://crypto.develotion.com/",
+    baseURL: "https://dwallet.develotion.com/"
 }
 export default global;

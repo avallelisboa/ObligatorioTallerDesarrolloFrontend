@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Login from './components/login/loginComponents';
 import Dashboard from './components/dashboard/dashboardComponent';
 import loginBL from './businessLogic/sessionBL';
@@ -10,13 +10,21 @@ import store from './store/store';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function App() {
+  const [isLoggedState, setIsLoggedState] = useState(false);
+
+  useEffect(()=>{
+    setIsLoggedState(sessionBL.isLogged());
+  },[]);
+
+  const setIsLoggedFN = (isLogged:boolean)=>{
+    setIsLoggedState(isLogged);
+  };
+
   return (
     <Provider store={store}>
-      <section>
       {
-        sessionBL.isLogged() ? <Dashboard/> : <Login/>
+        isLoggedState ? <Dashboard setIsLoggedFN={setIsLoggedFN}/> : <Login setIsLoggedFN={setIsLoggedFN}/>
       }
-      </section>
     </Provider>
   );
 }

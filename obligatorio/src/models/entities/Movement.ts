@@ -1,12 +1,12 @@
 class Movement{
     constructor(
-        private movementId:number,
-        private userId:number,
-        private concept:string,
-        private category:number,
-        private total:number,
-        private paymentMethod:string,
-        private date:Date,
+        public movementId:number,
+        public userId:number,
+        public concept:string,
+        public category:number,
+        public total:number,
+        public paymentMethod:string,
+        public date:Date,
     ){}
 }
 

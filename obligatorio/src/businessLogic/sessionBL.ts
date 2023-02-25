@@ -33,9 +33,14 @@ function saveApiKey(apikey:string):ValidationResult{
     }
     return validationResult;
 }
-function getApiKey():string{
+function getApiKey(){
     let apikey = localStorage.getItem('apikey');
-    return apikey != null ? apikey : '';
+    return apikey;
+}
+function getUserId():number{
+    let saveUserId = localStorage.getItem('userId');
+    let userId = saveUserId != null ? parseInt(saveUserId) : 0;
+    return userId;
 }
 function logOut(){
     localStorage.clear();
@@ -47,6 +52,7 @@ let sessionBL = {
     isLogged,
     saveApiKey,
     getApiKey,
+    getUserId,
     logOut
 };
 export default sessionBL;

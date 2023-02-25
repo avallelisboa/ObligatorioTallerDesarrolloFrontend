@@ -21,9 +21,25 @@ const Register = ()=>{
     const [mustShowRegisterWindow, setMustShowRegisterWindow] = useState('');
     const [departments, setDepartments] = useState(Array<DepartmentEntity>)
     const [cities, setCities] = useState(Array<CityEntity>);
+    const [selectedDepartment, setSelectedDepartment] = useState(new DepartmentEntity(0,"",0,"",0,"","",0,0,new Date(),new Date(),0,""));
+    const [citiesInSelectedDepartment, setCitiesInSelectedDepartment] = useState(Array<CityEntity>);
+
+    const updateSelectedDepartment = (event:any)=>{
+        const length = departments.length;
+        for(let i = 0; i < length; i++){
+            if(departments[i].departmentId == event.target.value){
+                setSelectedDepartment(departments[i]);
+                break;
+            }
+        };
+    };
     
     const dispatch = useDispatch();
 
+    useEffect(()=>{
+        let citiesInDepartment:Array<CityEntity> = cities.filter((cit)=>cit.departmentId == selectedDepartment.departmentId);
+        setCitiesInSelectedDepartment(citiesInDepartment);
+    },[selectedDepartment]);
     useEffect(()=>{
         departmentBL.getDepartments((parsedDepartments:Array<DepartmentEntity>)=>{
             dispatch(addDepartment(JSON.stringify(parsedDepartments)));
@@ -86,11 +102,11 @@ const Register = ()=>{
                 </fieldset>
                 <fieldset>
                     <label htmlFor="departmentsInput">Departamentos</label>
-                    <select name="departmentSelect" ref={departmentIdInput} required>
+                    <select name="departmentSelect" ref={departmentIdInput} onChange={updateSelectedDepartment} required>
                         {
                             departments.length > 0 ?
                             departments.map((dep:DepartmentEntity, index:number)=><Department key={index} departmentId={dep.departmentId} name={dep.name}/>) :
-                            <Department departmentId="3218" name="Montevideo"/>
+                            <Department departmentId="3218" name="Montevideo" />
                         }
                     </select>
                 </fieldset>
@@ -99,7 +115,7 @@ const Register = ()=>{
                     <select name="citySelect" ref={cityIdInput} required>
                         {
                             cities.length > 0 ?
-                            cities.map((cit:CityEntity, index:number)=><City key={index} cityId={cit.cityId} name={cit.name}/>) :
+                            citiesInSelectedDepartment.map((cit:CityEntity, index:number)=><City key={index} cityId={cit.cityId} name={cit.name}/>) :
                             <City cityId="129833" name="Montevideo"/>
                         }
                     </select>

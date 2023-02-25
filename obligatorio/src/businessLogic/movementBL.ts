@@ -5,6 +5,7 @@ import MovementService from "../services/movementService";
 import RequestFactoryMethod from '../factories/request/requestFactoryMethods';
 import ActionResult from "../models/validationModels/actionResult";
 import entitiesFactoryMethods from '../factories/entities/entitiesFactoryMethods';
+import sessionBL from "./sessionBL";
 
 function addMovement(movementVM:AddMovementVM, callbackFN:(result:ActionResult)=>void){
     let result = isMovementValid(movementVM);
@@ -14,8 +15,8 @@ function addMovement(movementVM:AddMovementVM, callbackFN:(result:ActionResult)=
     }else
         callbackFN(result);
 }
-function getMovements(userId:number, callbackFN:(movements:Array<Movement>)=>void){
-    MovementService.getMovements(userId, parseMovements,callbackFN);    
+function getMovements(callbackFN:(movements:Array<Movement>)=>void){
+    MovementService.getMovements(sessionBL.getUserId(), parseMovements,callbackFN);    
 }
 function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>void){
     MovementService.deleteMovement(movementId,callbackFN);

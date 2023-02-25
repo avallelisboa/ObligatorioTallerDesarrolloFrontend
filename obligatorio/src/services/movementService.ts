@@ -8,13 +8,13 @@ let {baseURL} = global;
 
 function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("",false);
-    
+    let apikey = sessionBL.getApiKey();
     fetch(`${baseURL}movimientos.php`,{
         method: 'GET',
         body: JSON.stringify(movement),
         headers:{
             'Content-Type': 'application/json',
-            'apikey': sessionBL.getApiKey()
+            'apikey': `${apikey}`
         }
     }).then(response => response.json())
     .then(response => {
@@ -32,32 +32,32 @@ function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResul
 }
 function getMovements(userId:number, parseFN:(movementsToParse:Array<object>)=>Array<Movement>, callbackFN:(movements:Array<Movement>)=>void):void{
     let movements:Array<Movement>;
-    
-    fetch(`${baseURL}movimientos.php`,{
+    let apikey = sessionBL.getApiKey();
+    fetch(`${baseURL}movimientos.php?idUsuario=${userId}`,{
         method: 'GET',
-        body: JSON.stringify(userId),
-        headers:{
-            'Content-Type': 'application/json',
-            'apikey': sessionBL.getApiKey()
-        }
+        headers: new Headers({
+            'Content-Type':'application/json',
+            'apikey': `${apikey}`
+        })
     }).then(response => response.json())
     .then(response => {
         console.log(response);
-
-        movements = parseFN(response);
-        callbackFN(movements);
+        if(response.codigo == 200){
+            movements = parseFN(response.movimientos);
+            callbackFN(movements);
+        }else console.log(response);
     })
     .catch(error => console.log(error));
 }
 function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("", false);
-    
+    let apikey = sessionBL.getApiKey();
     fetch(`${baseURL}movimientos.php`,{
         method: 'DELETE',
         body: JSON.stringify(movementId),
         headers:{
             'Content-Type': 'application/json',
-            'apikey': sessionBL.getApiKey()
+            'apikey': `${apikey}`
         }
     }).then(response => response.json())
     .then(response => {

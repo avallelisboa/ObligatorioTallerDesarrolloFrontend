@@ -22,6 +22,7 @@ function login(user:LoginUserRequest, saveApikeyFN:(apikey:string)=>ActionResult
         if(response.codigo == 200){
           let apikey = response.apiKey;
           actionResult = saveApikeyFN(apikey);
+          localStorage.setItem('userId',response.id);
         }else
           actionResult.message = response.mensaje;
       })
@@ -33,7 +34,7 @@ function login(user:LoginUserRequest, saveApikeyFN:(apikey:string)=>ActionResult
 function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("",false);
 
-    fetch(`${baseURL}register.php`,{
+    fetch(`${baseURL}usuarios.php`,{
       method: 'POST',
       body: JSON.parse(JSON.stringify(user)),
       headers:{
