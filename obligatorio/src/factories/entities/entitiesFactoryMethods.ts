@@ -13,18 +13,8 @@ function meakeATM(atm:any):ATM{
         atm.post,atm.disponible,atm.tienePesos,atm.tieneDolares
     );
 }
-function makeMovementChild(movement:any, movementType:string):Movement{
-    switch(movementType){
-        case "ingreso":
-            return makeIncome(movement);
-        case "gasto":
-            return makeExpense(movement);
-        default:
-            throw "El tipo de movimiento no es válido";       
-    }
-}
-function makeMovement(movement:any):Movement{
-    if(movement.total > 0)
+function makeMovement(movement:any, heading:Heading):Movement{
+    if(heading.category == "gasto") 
         return makeExpense(movement);
     else return makeIncome(movement);
 }
@@ -60,7 +50,6 @@ function makeCity(city:any):City{
 let entitiesFactoryMethods = {
     meakeATM,
     makeMovement,
-    makeMovementChild,
     makeHeading,
     makeDepartment,
     makeCity

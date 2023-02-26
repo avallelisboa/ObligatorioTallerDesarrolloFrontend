@@ -24,7 +24,13 @@ function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>voi
     MovementService.deleteMovement(movementId,callbackFN);
 }
 function parseMovements(movementsToParse:Array<object>):Array<Movement>{
-    let movements:Array<Movement> = movementsToParse.map((movement:any) => entitiesFactoryMethods.makeMovement(movement));
+    let movements:Array<Movement> = movementsToParse.map((movement:any) => {
+        let headings = localStorage.getItem("headings");
+        let headingParsed = headings != null ? JSON.parse(headings) : "";
+        let heading = headingParsed.find((element)=>element.id == movement.categoria);
+        
+        return entitiesFactoryMethods.makeMovement(movement, heading);
+    });
     return movements;
 }
 
