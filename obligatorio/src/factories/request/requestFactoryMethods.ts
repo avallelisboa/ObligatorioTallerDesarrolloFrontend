@@ -9,7 +9,7 @@ import LoginUserRequest from '../../models/request/LoginUserRequest';
 function makeAddMovementRequest(addMovementVM:AddMovementVM):AddMovementRequest{
     return new AddMovementRequest(
         addMovementVM.idUsuario,addMovementVM.concepto,addMovementVM.rubro,
-        addMovementVM.total,addMovementVM.medio,addMovementVM.date
+        addMovementVM.total,addMovementVM.medio,addMovementVM.fecha
     );
 }
 function makeLoginUserRequest(loginUserVM:LoginUserVM):LoginUserRequest{

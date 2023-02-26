@@ -6,7 +6,7 @@ class AddMovementVM{
         public rubro:string,
         public total:number,
         public medio:string,
-        public date:Date
+        public fecha:Date
     ){}
 }
 export default AddMovementVM;
