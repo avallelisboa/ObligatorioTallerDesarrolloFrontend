@@ -7,6 +7,9 @@ import LoginUserVM from '../../models/viewmodels/loginUserVM';
 import LoginUserRequest from '../../models/request/LoginUserRequest';
 
 function makeAddMovementRequest(addMovementVM:AddMovementVM):AddMovementRequest{
+    if(addMovementVM.tipo == "gasto")
+        addMovementVM.total = addMovementVM.total * -1;
+        
     return new AddMovementRequest(
         addMovementVM.idUsuario,addMovementVM.concepto,addMovementVM.rubro,
         addMovementVM.total,addMovementVM.medio,addMovementVM.fecha
