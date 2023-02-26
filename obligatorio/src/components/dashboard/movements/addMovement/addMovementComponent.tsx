@@ -1,17 +1,46 @@
-import React,{useState, useRef} from 'react'
+import React,{useState, useRef, useEffect} from 'react'
+import moment from 'moment';
+
+import HeadingComponent from './headingComponent/headingComponent';
+
 import sessionBL from '../../../../businessLogic/sessionBL';
-import AddMovementVM from '../../../../models/viewmodels/addMovementVM';
 import MovementBL from '../../../../businessLogic/movementBL';
+import headingBL from '../../../../businessLogic/headingBL';
+
+import Heading from '../../../../models/entities/Heading';
+import AddMovementVM from '../../../../models/viewmodels/addMovementVM';
+
+import store from '../../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMovements } from '../../../../features/movementsSlice';
 
 const AddMovement = () => {
+  const dispatch = useDispatch();
 
+  const headings = JSON.parse(useSelector((state:any) => state.headings.headings));
+
+  const movementTypeSelectRef = useRef<HTMLSelectElement>(null);
   const conceptInputRef = useRef<HTMLInputElement>(null);
+  const headingSelectRef = useRef<HTMLSelectElement>(null);
   const totalInputRef = useRef<HTMLInputElement>(null);
   const methodInputRef = useRef<HTMLInputElement>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const [isThereMessage, setIsThereMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [wasThereError, setWasThereError] = useState(false);
+
+  const cleanMessage = ()=>{
+    setMessage('');
+    setIsThereMessage(false);
+    setWasThereError(false);
+  };
+  
+  useEffect(()=>{
+    cleanMessage();
+
+    return cleanMessage();
+  },[]);
 
   const addMovementFN = (event:any)=>{
     event.preventDefault();
@@ -21,15 +50,21 @@ const AddMovement = () => {
     setWasThereError(false);
 
     let userId:number = sessionBL.getUserId();
+    let movementType:string = movementTypeSelectRef.current?.value as string;
     let concept:string = conceptInputRef.current?.value as string;
+    let heading:string = headingSelectRef.current?.value as string;
     let total:number = parseInt(totalInputRef.current?.value as string);
     let method:string = methodInputRef.current?.value as string;
+    let date:Date = moment(dateInputRef.current?.value as string).toDate();
 
-    let addMovementVM:AddMovementVM = new AddMovementVM(userId,concept,total,method);
+    let addMovementVM:AddMovementVM = new AddMovementVM(userId, movementType,concept,heading,total,method, date);
     MovementBL.addMovement(addMovementVM, (result)=>{
       setWasThereError(!(result.isValid));
       setIsThereMessage(true);
       setMessage(result.message);
+      MovementBL.getMovements((movements)=>{
+        store.dispatch(addMovements(JSON.stringify(movements)));
+      });
     });
   }
     return (
@@ -38,8 +73,23 @@ const AddMovement = () => {
       <form onSubmit={addMovementFN}>
         <legend>Agregar movimiento</legend>
         <fieldset>
+          <label htmlFor="movementTypeSelectId">Tipo de movimiento</label>
+          <select id="movementTypeSelectId" ref={movementTypeSelectRef}>
+            <option value="ingreso">Ingreso</option>
+            <option value="gasto">Gasto</option>
+          </select>
+        </fieldset>
+        <fieldset>
           <label htmlFor="conceptInputId">Concepto</label>
           <input type="text" id="conceptInputId" ref={conceptInputRef}/>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="headingSelectId">Rubro</label>
+          <select id="headingSelectId" ref={headingSelectRef}>
+            {
+              headings.map((heading: Heading, index:number) => <HeadingComponent key={index} headingId={heading.headingId} headingName={heading.name}/>)
+            }
+          </select>
         </fieldset>
         <fieldset>
           <label htmlFor="totalInputRef">Total</label>

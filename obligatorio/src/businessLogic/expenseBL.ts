@@ -5,4 +5,7 @@ function isExpenseValid(expense: Expense):ValidationResult{
     return new ValidationResult("", true);
 }
 
-export default isExpenseValid;
+const expenseBL ={
+    isExpenseValid
+}
+export default expenseBL;

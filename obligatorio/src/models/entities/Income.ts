@@ -1,4 +1,6 @@
+import ValidationResult from '../validationModels/actionResult';
 import Movement from './Movement';
+import incomeBL from "../../businessLogic/incomeBL";
 
 class Income extends Movement{
     constructor(
@@ -11,6 +13,10 @@ class Income extends Movement{
         date:Date
     ){ 
         super(movementId,userId,concept,category,total,paymentMethod,date);
+    }
+
+    isValid(): ValidationResult {
+        return incomeBL.isIncomeValid(this);
     }
 }
 

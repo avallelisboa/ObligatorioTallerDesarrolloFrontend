@@ -10,7 +10,7 @@ function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResul
     let actionResult:ActionResult = new ActionResult("",false);
     let apikey = sessionBL.getApiKey();
     fetch(`${baseURL}movimientos.php`,{
-        method: 'GET',
+        method: 'POST',
         body: JSON.stringify(movement),
         headers:{
             'Content-Type': 'application/json',
@@ -19,14 +19,12 @@ function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResul
     }).then(response => response.json())
     .then(response => {
         console.log(response);
-
         if(response.status == 200)
             actionResult.isValid = true;
-        actionResult.message = response.message;
+        actionResult.message = response.mensaje;
     })
     .catch(error => {
         console.log(error);
-
         actionResult.message = error;
     }).finally(()=>callbackFN(actionResult));
 }
@@ -54,7 +52,9 @@ function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>voi
     let apikey = sessionBL.getApiKey();
     fetch(`${baseURL}movimientos.php`,{
         method: 'DELETE',
-        body: JSON.stringify(movementId),
+        body: JSON.stringify({
+            idMovimiento : movementId
+        }),
         headers:{
             'Content-Type': 'application/json',
             'apikey': `${apikey}`
@@ -64,7 +64,7 @@ function deleteMovement(movementId:number, callbackFN:(result:ActionResult)=>voi
         console.log(response);
         if(response.status == 200)
             actionResult.isValid = true;
-        actionResult.message = response.message;
+        actionResult.message = response.mensaje;
     })
     .catch(error => {
         console.log(error);

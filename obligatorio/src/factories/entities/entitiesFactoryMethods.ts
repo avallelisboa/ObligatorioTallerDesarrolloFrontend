@@ -5,12 +5,23 @@ import Department from '../../models/entities/Department';
 import City from '../../models/entities/City';
 import ATM from '../../models/entities/ATM';
 import Heading from '../../models/entities/Heading';
+import AddMovementVM from '../../models/viewmodels/addMovementVM';
 
 function meakeATM(atm:any):ATM{
     return new ATM(
         atm.idCajero,atm.latitud, atm.longitud,atm.depositos,
         atm.post,atm.disponible,atm.tienePesos,atm.tieneDolares
     );
+}
+function makeMovementChild(movement:any, movementType:string):Movement{
+    switch(movementType){
+        case "ingreso":
+            return makeIncome(movement);
+        case "gasto":
+            return makeExpense(movement);
+        default:
+            throw "El tipo de movimiento no es válido";       
+    }
 }
 function makeMovement(movement:any):Movement{
     if(movement.total > 0)
@@ -19,13 +30,13 @@ function makeMovement(movement:any):Movement{
 }
 function makeIncome(income:any):Income{
     return new Income(
-        income.idMovimiento,income.idUsuario,income.concepto,
+        income.id,income.idUsuario,income.concepto,
         income.categoria,income.total, income.medio, income.fecha
     );
 }
 function makeExpense(expense:any):Expense{
     return new Expense(
-        expense.IdMovimiento, expense.idUsuario, expense.concepto,
+        expense.id, expense.idUsuario, expense.concepto,
         expense.categoria, expense.total, expense.medio, expense.fecha
     );
 }
@@ -49,8 +60,7 @@ function makeCity(city:any):City{
 let entitiesFactoryMethods = {
     meakeATM,
     makeMovement,
-    makeIncome,
-    makeExpense,
+    makeMovementChild,
     makeHeading,
     makeDepartment,
     makeCity

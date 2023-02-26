@@ -15,7 +15,7 @@ function getHeadings(parseFN:(headingsToParse:Array<object>)=>Array<Heading>,cal
     }).then((res)=>res.json())
     .then(response => {
         console.log(response);
-        parseFN(response);
+        headings = parseFN(response.rubros);
         callbackFN(headings);
     })
     .catch(error => {
