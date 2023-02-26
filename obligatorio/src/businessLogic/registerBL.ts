@@ -29,18 +29,46 @@ function isRegisterUserValid(userToRegister:RegisterUserVM):ValidationResult{
     return validationResult;
 }
 function isUserNameValid(userName:string):ValidationResult{
-    return new ValidationResult("", true);
+    return isUserNameLengthCorrect(userName);
 }
 function isUserNameLengthCorrect(userName:string):ValidationResult{
-    return new ValidationResult("", true);
+    let validationResult = new ValidationResult("", true);
+    let userNameLength = userName.length;
+    if(userNameLength < 5 || userNameLength > 20){
+        validationResult.isValid = false;
+        validationResult.message = "El usuario debe tener entre 5 y 20 caracteres."
+    }
+
+    return validationResult;
 }
 function isPasswordValid(passWord:string, verifyPassword:string):ValidationResult{
-    return new ValidationResult("", true);
+    let validationResult = new ValidationResult("", true);
+    
+    let passwordLengthResult = isPasswordLengthCorrect(passWord);
+    let passwordsMatchResult = arePasswordsTheSame(passWord, verifyPassword);
+
+    validationResult.isValid = passwordLengthResult.isValid && passwordLengthResult.isValid;
+    validationResult.message = validationResult.isValid ? "La contraseña es válida." :
+                                passwordLengthResult.message + " " + passwordsMatchResult.message;
+    return validationResult;
 }
 function isPasswordLengthCorrect(password:string):ValidationResult{
-    return new ValidationResult("", true);
+    let result = new ValidationResult("", true);
+    let passworLength = password.length;
+    if (passworLength < 6 || passworLength > 30){
+        result.isValid = false;
+        result.message = "La contraseña debe tener entre 6 y 30 caracteres.";
+    }
+    return result;
 }
-const arePasswordsTheSame = (password:string, verifyPassword:string) => password == verifyPassword;
+function arePasswordsTheSame(password:string, verifyPassword:string){
+    let result = new ValidationResult("", true);
+    if (password != verifyPassword){
+        result.isValid = false;
+        result.message = "La contraseñas deben coincidir.";
+    }
+    return result;
+}
 
 function areDepartmentAndCityCorrect(departmentId:number, cityId:number):ValidationResult{
     return new ValidationResult("", true);
