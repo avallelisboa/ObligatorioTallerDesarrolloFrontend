@@ -92,12 +92,16 @@ const AddMovement = () => {
           </select>
         </fieldset>
         <fieldset>
-          <label htmlFor="totalInputRef">Total</label>
-          <input type="text" id="totalInputRef" ref={totalInputRef}/>
+          <label htmlFor="totalInputId">Total</label>
+          <input type="text" id="totalInputId" ref={totalInputRef}/>
         </fieldset>
         <fieldset>
-          <label htmlFor="methodInputRef">Medio</label>
-          <input type="text" id="methodInputRef" ref={methodInputRef}/>
+          <label htmlFor="methodInputId">Medio</label>
+          <input type="text" id="methodInputId" ref={methodInputRef}/>
+        </fieldset>
+        <fieldset>
+          <label>Fecha</label>
+          <input type="date" id="dateInputId" ref={dateInputRef} />
         </fieldset>
         <fieldset>
           <input type="submit" value="Agregar"/>
