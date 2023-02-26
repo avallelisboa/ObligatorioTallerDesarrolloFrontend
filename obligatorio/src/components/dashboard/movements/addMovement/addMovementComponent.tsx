@@ -100,7 +100,7 @@ const AddMovement = () => {
           <input type="text" id="methodInputId" ref={methodInputRef}/>
         </fieldset>
         <fieldset>
-          <label>Fecha</label>
+          <label htmlFor="dateInputId">Fecha</label>
           <input type="date" id="dateInputId" ref={dateInputRef} />
         </fieldset>
         <fieldset>
