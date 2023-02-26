@@ -5,4 +5,7 @@ function isIncomeValid(income:Income):ValidationResult{
     return new ValidationResult("", true);
 }
 
-export default isIncomeValid;
+const incomeBL ={
+    isIncomeValid
+}
+export default incomeBL;

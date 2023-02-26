@@ -11,13 +11,13 @@ const departmentsSlice = createSlice({
             state.departments = action.payload;
         },        
         emptyDepartments: (state)=>{
-            state.departments.splice(0,state.departments.length);
+            state.departments = [];
         },
         addCity: (state, action)=>{
             state.cities = action.payload;
         },
         emptyCities: (state)=>{
-            state.cities.splice(0,state.cities.length);
+            state.cities = [];
         }
     }
 });

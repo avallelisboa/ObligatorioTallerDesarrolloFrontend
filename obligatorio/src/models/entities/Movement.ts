@@ -1,4 +1,6 @@
-class Movement{
+import ValidationResult from "../validationModels/actionResult";
+
+abstract class Movement{
     constructor(
         public movementId:number,
         public userId:number,
@@ -8,6 +10,7 @@ class Movement{
         public paymentMethod:string,
         public date:Date,
     ){}
+    abstract isValid():ValidationResult;
 }
 
 export default Movement;

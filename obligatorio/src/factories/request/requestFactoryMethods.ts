@@ -7,10 +7,9 @@ import LoginUserVM from '../../models/viewmodels/loginUserVM';
 import LoginUserRequest from '../../models/request/LoginUserRequest';
 
 function makeAddMovementRequest(addMovementVM:AddMovementVM):AddMovementRequest{
-    let date = new Date(moment('DD/MM/YYYY').toString());    
     return new AddMovementRequest(
-        addMovementVM.idUsuario,addMovementVM.concepto,
-        addMovementVM.total,addMovementVM.medio,date
+        addMovementVM.idUsuario,addMovementVM.concepto,addMovementVM.rubro,
+        addMovementVM.total,addMovementVM.medio,addMovementVM.date
     );
 }
 function makeLoginUserRequest(loginUserVM:LoginUserVM):LoginUserRequest{

@@ -1,4 +1,6 @@
+import ValidationResult from '../validationModels/actionResult';
 import Movement from './Movement';
+import expenseBL from '../../businessLogic/expenseBL';
 
 class Expense extends Movement{
     constructor(
@@ -10,8 +12,11 @@ class Expense extends Movement{
         paymentMethod:string,
         date:Date
     ){
-        let _total = total < 0 ? total * -1 : total;
-        super(movementId,userId,concept,category,_total,paymentMethod,date);
+        super(movementId,userId,concept,category,total,paymentMethod,date);
+    }
+
+    isValid(): ValidationResult {
+        return expenseBL.isExpenseValid(this);
     }
 }
 
