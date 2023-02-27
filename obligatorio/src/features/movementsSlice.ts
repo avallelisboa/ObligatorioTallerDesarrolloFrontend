@@ -18,7 +18,7 @@ const movementsSlice =  createSlice({
         emptyMovements:(state)=>{
             state.movements = [];
         },
-        addIncome:(state, action)=>{
+        addIncomes:(state, action)=>{
             state.income = action.payload;
         },
         emptyIncome:(state)=>{
@@ -52,7 +52,7 @@ const movementsSlice =  createSlice({
 });
 
 export const {
-    addMovements, emptyMovements, addIncome, emptyIncome,
+    addMovements, emptyMovements, addIncomes, emptyIncome,
     addExpenses, emptyExpenses, sumIncome, sumExpense,
     resetTotalIncome, resetTotalExpense, resetDifference,
     calculateDifference

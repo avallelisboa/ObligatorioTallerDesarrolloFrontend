@@ -12,9 +12,11 @@ import AddMovementVM from '../../../../models/viewmodels/addMovementVM';
 
 import store from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMovements, calculateDifference, emptyMovements, sumExpense, sumIncome } from '../../../../features/movementsSlice';
+import { addExpenses, addIncomes, addMovements, calculateDifference, emptyMovements, resetDifference, resetTotalExpense, resetTotalIncome, sumExpense, sumIncome } from '../../../../features/movementsSlice';
 import IncomeMethod from './methodComponents/incomeMethodComponent';
 import ExpenseMethod from './methodComponents/expenseMethodComponent';
+import Income from '../../../../models/entities/Income';
+import Expense from '../../../../models/entities/Expense';
 
 const AddMovement = () => {
   const dispatch = useDispatch();
@@ -69,15 +71,24 @@ const AddMovement = () => {
       MovementBL.getMovements((movements)=>{
         store.dispatch(emptyMovements());
         store.dispatch(addMovements(JSON.stringify(movements)));
+        store.dispatch(resetDifference());
+        store.dispatch(resetTotalExpense());
+        store.dispatch(resetTotalIncome());
 
+        let expenses = new Array<Expense>();
+        let incomes = new Array<Income>();
         movements.forEach((element, index)=>{
           let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
           if(heading?.category == "gasto"){
-              store.dispatch(sumIncome(element.total));
+            store.dispatch(sumExpense(JSON.stringify(element.total)));
+            expenses.push(element);
           }else{
-              store.dispatch(sumExpense(element.total));
+            store.dispatch(sumIncome(JSON.stringify(element.total)));
+            incomes.push(element);
           }
         });
+        store.dispatch(addExpenses(expenses));
+        store.dispatch(addIncomes(incomes));
         store.dispatch(calculateDifference());
       });
     });
