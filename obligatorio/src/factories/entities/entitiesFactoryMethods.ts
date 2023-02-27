@@ -14,6 +14,8 @@ function meakeATM(atm:any):ATM{
     );
 }
 function makeMovement(movement:any, heading:Heading):Movement{
+    if(heading == null)
+        return makeExpense(movement);
     if(heading.category == "gasto") 
         return makeExpense(movement);
     else return makeIncome(movement);

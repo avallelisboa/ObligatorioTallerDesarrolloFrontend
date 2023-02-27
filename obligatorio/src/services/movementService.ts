@@ -9,9 +9,10 @@ let {baseURL} = global;
 function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("",false);
     let apikey = sessionBL.getApiKey();
+    let bodyToSend = JSON.stringify(movement);
     fetch(`${baseURL}movimientos.php`,{
         method: 'POST',
-        body: JSON.stringify(movement),
+        body: bodyToSend,
         headers:{
             'Content-Type': 'application/json',
             'apikey': `${apikey}`

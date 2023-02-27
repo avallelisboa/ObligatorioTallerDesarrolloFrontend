@@ -42,9 +42,8 @@ const MovementsList = () => {
   };
 
   return (
-    <>
-      <h2>Movements List Component Works!!!</h2>
-      <article>
+    <article>
+      <h3>Movements List Component Works!!!</h3>
         <table>
           <thead>
             <tr>
@@ -67,8 +66,7 @@ const MovementsList = () => {
           isThereMessage ?
               <p className={wasThereError ? 'error' : 'correct'}>{message}</p> : null
         }
-      </article>
-    </>
+    </article>
   )
 }
 

@@ -27,7 +27,7 @@ function parseMovements(movementsToParse:Array<object>):Array<Movement>{
     let movements:Array<Movement> = movementsToParse.map((movement:any) => {
         let headings = localStorage.getItem("headings");
         let headingParsed = headings != null ? JSON.parse(headings) : "";
-        let heading = headingParsed.find((element)=>element.id == movement.categoria);
+        let heading = headingParsed.find((element:Heading)=>element.headingId == movement.categoria);
         
         return entitiesFactoryMethods.makeMovement(movement, heading);
     });
@@ -55,9 +55,9 @@ function isMovementValid(movement:AddMovementVM):ValidationResult{
 function isConceptValid(concept:string):ValidationResult{
     let result = new ValidationResult("", true);
     let conceptLength = concept.length;
-    if(conceptLength < 4 || conceptLength > 20){
+    if(conceptLength < 4 || conceptLength > 50){
         result.isValid = false;
-        result.message = "El concepto debe tener entre 4 y 20 caracteres."
+        result.message = "El concepto debe tener entre 4 y 50 caracteres."
     }
     return result;
 }
