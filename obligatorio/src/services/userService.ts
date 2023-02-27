@@ -10,9 +10,10 @@ let {baseURL} = global;
 
 function login(user:LoginUserRequest, saveApikeyFN:(apikey:string)=>ActionResult, callbackFN:(result:ActionResult)=>void):void{
   let actionResult:ActionResult = new ActionResult("",false);
+  let body = JSON.stringify(user);
     fetch(`${baseURL}login.php`,{
         method: 'POST',
-        body: JSON.parse(JSON.stringify(user)),
+        body: body,
         headers:{
           'Content-Type':'application/json'
         }  

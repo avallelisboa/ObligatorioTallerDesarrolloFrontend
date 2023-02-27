@@ -36,7 +36,7 @@ function saveIncomesAndExpensesInStore(movements:Array<Movement>){
     let incomes = new Array<Income>();
     movements.forEach((element:Movement, index:number)=>{
         let heading =  headings.find((heading:any)=>heading.headingId == element.category);
-        if(heading?.category == "income"){
+        if(heading?.category == "ingreso"){
             incomes.push(element);
         }else{
             expenses.push(element);

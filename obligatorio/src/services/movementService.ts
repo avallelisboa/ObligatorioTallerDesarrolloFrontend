@@ -10,13 +10,14 @@ function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResul
     let actionResult:ActionResult = new ActionResult("",false);
     let apikey = sessionBL.getApiKey();
     let bodyToSend = JSON.stringify(movement);
+    let header = {
+        'Content-Type': 'application/json',
+        'apikey': `${apikey}`
+    }
     fetch(`${baseURL}movimientos.php`,{
         method: 'POST',
         body: bodyToSend,
-        headers:{
-            'Content-Type': 'application/json',
-            'apikey': `${apikey}`
-        }
+        headers:header,
     }).then(response => response.json())
     .then(response => {
         console.log(response);
@@ -32,12 +33,13 @@ function addMovement(movement:AddMovementRequest, callbackFN:(result:ActionResul
 function getMovements(userId:number, parseFN:(movementsToParse:Array<object>)=>Array<Movement>, callbackFN:(movements:Array<Movement>)=>void):void{
     let movements:Array<Movement>;
     let apikey = sessionBL.getApiKey();
+    let header = {
+        'Content-Type': 'application/json',
+        'apikey': `${apikey}`
+    }
     fetch(`${baseURL}movimientos.php?idUsuario=${userId}`,{
         method: 'GET',
-        headers: new Headers({
-            'Content-Type':'application/json',
-            'apikey': `${apikey}`
-        })
+        headers: header,
     }).then(response => response.json())
     .then(response => {
         console.log(response);
