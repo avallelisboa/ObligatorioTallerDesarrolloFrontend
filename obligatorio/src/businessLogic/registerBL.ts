@@ -34,9 +34,9 @@ function isUserNameValid(userName:string):ValidationResult{
 function isUserNameLengthCorrect(userName:string):ValidationResult{
     let validationResult = new ValidationResult("", true);
     let userNameLength = userName.length;
-    if(userNameLength < 5 || userNameLength > 20){
+    if(userNameLength < 5 || userNameLength > 40){
         validationResult.isValid = false;
-        validationResult.message = "El usuario debe tener entre 5 y 20 caracteres."
+        validationResult.message = "El usuario debe tener entre 5 y 40 caracteres."
     }
 
     return validationResult;

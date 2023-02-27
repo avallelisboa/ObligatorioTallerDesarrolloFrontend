@@ -2,7 +2,7 @@ class AddMovementRequest{
     constructor(
         public idUsuario:number,
         public concepto:string,
-        public rubro:number,
+        public categoria:number,
         public total:number,
         public medio:string,
         public fecha:Date
