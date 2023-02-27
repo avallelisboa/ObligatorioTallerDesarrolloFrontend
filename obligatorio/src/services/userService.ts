@@ -33,19 +33,20 @@ function login(user:LoginUserRequest, saveApikeyFN:(apikey:string)=>ActionResult
 }
 function register(user:RegisterUserRequest, callbackFN:(result:ActionResult)=>void):void{
     let actionResult:ActionResult = new ActionResult("",false);
-
+    let body = JSON.stringify(user);
     fetch(`${baseURL}usuarios.php`,{
       method: 'POST',
-      body: JSON.parse(JSON.stringify(user)),
+      body: body,
       headers:{
         'Content-Type':'application/json'
       }  
     }).then(res => res.json())
     .then(response=>{
       console.log(response);
-      if(response.codigo == 200)
+      if(response.codigo == 200){
         actionResult.isValid = true;
-      actionResult.message = response.mensaje;
+        actionResult.message = "EL usuario ha podido registrarse";
+      }
     })
     .catch(error=>{
       console.log(error);
