@@ -16,6 +16,8 @@ import {
 } from '../../features/movementsSlice';
 import { addHeadings, emptyHeadings } from '../../features/headingSlice';
 
+import Heading from '../../models/entities/Heading';
+
 import sessionBL from '../../businessLogic/sessionBL';
 import MovementBL from '../../businessLogic/movementBL';
 import headingBL from '../../businessLogic/headingBL';
@@ -37,7 +39,7 @@ const Dashboard = (props:any)=>{
                 store.dispatch(resetTotalIncome());
 
                 movements.forEach((element, index)=>{
-                    let heading =  headings.find((heading)=>heading.headingId == element.category);
+                    let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
                     if(heading?.category == "gasto"){
                         store.dispatch(sumIncome(element.total));
                     }else{

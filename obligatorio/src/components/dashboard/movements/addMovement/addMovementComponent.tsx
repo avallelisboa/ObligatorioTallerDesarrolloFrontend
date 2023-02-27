@@ -12,7 +12,7 @@ import AddMovementVM from '../../../../models/viewmodels/addMovementVM';
 
 import store from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMovements, emptyMovements } from '../../../../features/movementsSlice';
+import { addMovements, calculateDifference, emptyMovements, sumExpense, sumIncome } from '../../../../features/movementsSlice';
 import IncomeMethod from './methodComponents/incomeMethodComponent';
 import ExpenseMethod from './methodComponents/expenseMethodComponent';
 
@@ -69,6 +69,16 @@ const AddMovement = () => {
       MovementBL.getMovements((movements)=>{
         store.dispatch(emptyMovements());
         store.dispatch(addMovements(JSON.stringify(movements)));
+
+        movements.forEach((element, index)=>{
+          let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
+          if(heading?.category == "gasto"){
+              store.dispatch(sumIncome(element.total));
+          }else{
+              store.dispatch(sumExpense(element.total));
+          }
+        });
+        store.dispatch(calculateDifference());
       });
     });
   }

@@ -5,10 +5,17 @@ import MoveElementList from './movementElementList/moveElementListComponent';
 
 import store from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMovements, emptyMovements } from '../../../../features/movementsSlice';
+import { 
+  addMovements, calculateDifference, emptyMovements,
+  resetDifference, resetTotalExpense, resetTotalIncome,
+  sumExpense, sumIncome
+} from '../../../../features/movementsSlice';
 
 import sessionBL from '../../../../businessLogic/sessionBL';
 import MovementBL from '../../../../businessLogic/movementBL';
+import headingBL from '../../../../businessLogic/headingBL';
+import { addHeadings, emptyHeadings } from '../../../../features/headingSlice';
+import Heading from '../../../../models/entities/Heading';
 
 const MovementsList = () => {
   const movements = JSON.parse(useSelector((state:any) => state.movements.movements));
@@ -30,13 +37,30 @@ const MovementsList = () => {
     setMessage('');
     setIsThereMessage(false);
     setWasThereError(false);
-    MovementBL.deleteMovement(movementId,(result)=>{      
-      MovementBL.getMovements((movements)=>{
-        store.dispatch(emptyMovements());
-        store.dispatch(addMovements(JSON.stringify(movements)));
-        setWasThereError(!result.isValid);
-        setIsThereMessage(true);
-        setMessage(result.message);
+    MovementBL.deleteMovement(movementId,(result)=>{
+        let storage = localStorage.getItem("headings");
+        let headings = storage !=  null ? JSON.parse(storage) : new Array<Heading>();
+        
+        MovementBL.getMovements((movements)=>{
+          store.dispatch(emptyMovements());
+          store.dispatch(addMovements(JSON.stringify(movements))); 
+          store.dispatch(resetDifference());
+          store.dispatch(resetTotalExpense());
+          store.dispatch(resetTotalIncome());
+
+          setWasThereError(!result.isValid);
+          setIsThereMessage(true);
+          setMessage(result.message);
+
+          movements.forEach((element, index)=>{
+              let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
+              if(heading?.category == "gasto"){
+                  store.dispatch(sumIncome(element.total));
+              }else{
+                  store.dispatch(sumExpense(element.total));
+              }
+          });
+        store.dispatch(calculateDifference());
       });
     });
   };
