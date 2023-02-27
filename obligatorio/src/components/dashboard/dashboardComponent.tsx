@@ -28,6 +28,7 @@ const Dashboard = (props:any)=>{
         headingBL.getHeadings((headings)=>{
             store.dispatch(emptyHeadings());
             store.dispatch(addHeadings(JSON.stringify(headings)));
+            localStorage.setItem("headings", JSON.stringify(headings));
         });
     },[]);
     

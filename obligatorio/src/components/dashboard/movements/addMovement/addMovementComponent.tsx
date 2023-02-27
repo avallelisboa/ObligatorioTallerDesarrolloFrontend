@@ -19,6 +19,8 @@ const AddMovement = () => {
 
   const headings = JSON.parse(useSelector((state:any) => state.headings.headings));
 
+  const [movementType, setMovementType] = useState("ingreso");
+
   const movementTypeSelectRef = useRef<HTMLSelectElement>(null);
   const conceptInputRef = useRef<HTMLInputElement>(null);
   const headingSelectRef = useRef<HTMLSelectElement>(null);
@@ -67,37 +69,44 @@ const AddMovement = () => {
       });
     });
   }
-    return (
+  
+  return (
     <>
       <h2>Add Movement Component works!!!</h2>
       <form onSubmit={addMovementFN}>
         <legend>Agregar movimiento</legend>
         <fieldset>
           <label htmlFor="movementTypeSelectId">Tipo de movimiento</label>
-          <select id="movementTypeSelectId" ref={movementTypeSelectRef}>
+          <select id="movementTypeSelectId" onChange={(e)=>setMovementType(e.target.value)} ref={movementTypeSelectRef}>
             <option value="ingreso">Ingreso</option>
             <option value="gasto">Gasto</option>
           </select>
         </fieldset>
         <fieldset>
           <label htmlFor="conceptInputId">Concepto</label>
-          <input type="text" id="conceptInputId" ref={conceptInputRef}/>
+          <input type="text" id="conceptInputId" ref={conceptInputRef} required/>
         </fieldset>
         <fieldset>
           <label htmlFor="headingSelectId">Rubro</label>
-          <select id="headingSelectId" ref={headingSelectRef}>
+          <select id="headingSelectId" ref={headingSelectRef} required>
             {
-              headings.map((heading: Heading, index:number) => <HeadingComponent key={index} headingId={heading.headingId} headingName={heading.name}/>)
+              headings.map((heading: Heading, index:number) => heading.category == movementType ? 
+                                                              <HeadingComponent key={index} headingId={heading.headingId} headingName={heading.name}/>
+                                                              : null)
             }
           </select>
         </fieldset>
         <fieldset>
-          <label htmlFor="totalInputRef">Total</label>
-          <input type="text" id="totalInputRef" ref={totalInputRef}/>
+          <label htmlFor="totalInputId">Total</label>
+          <input type="text" id="totalInputId" ref={totalInputRef} required/>
         </fieldset>
         <fieldset>
-          <label htmlFor="methodInputRef">Medio</label>
-          <input type="text" id="methodInputRef" ref={methodInputRef}/>
+          <label htmlFor="methodInputId">Medio</label>
+          <input type="text" id="methodInputId" ref={methodInputRef} required/>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="dateInputId">Fecha</label>
+          <input type="date" id="dateInputId" ref={dateInputRef} required/>
         </fieldset>
         <fieldset>
           <input type="submit" value="Agregar"/>

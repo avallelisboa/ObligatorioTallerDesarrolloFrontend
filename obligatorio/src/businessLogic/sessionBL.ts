@@ -11,13 +11,32 @@ function logIn(user:LoginUserVM, callbackFN:(result:ValidationResult)=>void){
         });
 }
 function isLoginUserValid(user:LoginUserVM):ValidationResult{
-    return new ValidationResult("Los datos son correctos", true);
-}
-function isUserNameValid(username:string){
+    let result = new ValidationResult("", true);
 
-}
-function isPasswordValid(password:string){
+    let userNameResult = isUserNameValid(user.userName);
+    let passwordResult = isPasswordValid(user.password);
 
+    result.isValid = userNameResult.isValid && passwordResult.isValid;
+    result.message = result.isValid ? "Los datos son correctos" :
+                    userNameResult.message + " " + passwordResult.message;
+
+    return result;
+}
+function isUserNameValid(username:string):ValidationResult{
+    let result = new ValidationResult("", true);
+    if(username == null){
+        result.isValid = false;
+        result.message = "Debe ingresar el usuario";
+    }
+    return result;
+}
+function isPasswordValid(password:string):ValidationResult{
+    let result = new ValidationResult("", true);
+    if(password == null){
+        result.isValid = false;
+        result.message = "Debe ingresar la contraseña";
+    }
+    return result;
 }
 function isLogged():boolean{
     let apikey = localStorage.getItem('apikey');
