@@ -51,9 +51,7 @@ const AddMovement = () => {
   const addMovementFN = (event:any)=>{
     event.preventDefault();
 
-    setMessage('');
-    setIsThereMessage(false);
-    setWasThereError(false);
+    cleanMessage();
 
     let userId:number = sessionBL.getUserId();
     let movementType:string = movementTypeSelectRef.current?.value as string;
@@ -68,29 +66,7 @@ const AddMovement = () => {
       setWasThereError(!(result.isValid));
       setIsThereMessage(true);
       setMessage(result.message);
-      MovementBL.getMovements((movements)=>{
-        store.dispatch(emptyMovements());
-        store.dispatch(addMovements(JSON.stringify(movements)));
-        store.dispatch(resetDifference());
-        store.dispatch(resetTotalExpense());
-        store.dispatch(resetTotalIncome());
-
-        let expenses = new Array<Expense>();
-        let incomes = new Array<Income>();
-        movements.forEach((element, index)=>{
-          let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
-          if(heading?.category == "gasto"){
-            store.dispatch(sumExpense(JSON.stringify(element.total)));
-            expenses.push(element);
-          }else{
-            store.dispatch(sumIncome(JSON.stringify(element.total)));
-            incomes.push(element);
-          }
-        });
-        store.dispatch(addExpenses(expenses));
-        store.dispatch(addIncomes(incomes));
-        store.dispatch(calculateDifference());
-      });
+      MovementBL.getMovements();
     });
   }
   

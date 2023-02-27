@@ -31,33 +31,7 @@ const Dashboard = (props:any)=>{
     
     useEffect(()=>{
         headingBL.getHeadings((headings)=>{
-            store.dispatch(emptyHeadings());
-            store.dispatch(addHeadings(JSON.stringify(headings)));
-            localStorage.setItem("headings", JSON.stringify(headings));
-            
-            MovementBL.getMovements((movements)=>{
-                store.dispatch(emptyMovements());
-                store.dispatch(addMovements(JSON.stringify(movements))); 
-                store.dispatch(resetDifference());
-                store.dispatch(resetTotalExpense());
-                store.dispatch(resetTotalIncome());
-
-                let expenses = new Array<Expense>();
-                let incomes = new Array<Income>();
-                movements.forEach((element:Movement, index)=>{
-                    let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
-                    if(heading?.category == "gasto"){
-                        store.dispatch(sumExpense(JSON.stringify(element.total)));
-                        expenses.push(element);
-                    }else{
-                        store.dispatch(sumIncome(JSON.stringify(element.total)));
-                        incomes.push(element);
-                    }
-                });
-                store.dispatch(addExpenses(JSON.stringify(expenses)));
-                store.dispatch(addIncomes(JSON.stringify(incomes)));
-                store.dispatch(calculateDifference());
-            });
+            MovementBL.getMovements();
         });
         
     },[]);

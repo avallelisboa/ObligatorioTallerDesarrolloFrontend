@@ -22,6 +22,7 @@ import Expense from '../../../../models/entities/Expense';
 import Income from '../../../../models/entities/Income';
 
 const MovementsList = () => {
+  const headings = JSON.parse(useSelector((state:any)=> state.headings.headings));
   const movements = JSON.parse(useSelector((state:any) => state.movements.movements));
   const [expenses, setExpenses] = useState(Array<Expense>);
   const [incomes, setIncomes] = useState(Array<Income>);
@@ -38,18 +39,15 @@ const MovementsList = () => {
     setMessage('');
     setIsThereMessage(false);
     setWasThereError(false);
-
-    let storage = localStorage.getItem("headings");
-    let headings:Array<Heading> = storage != null ? JSON.parse(storage) : new Array<Heading>();
     
     let expenses = new Array<Expense>();
     let incomes = new Array<Income>();
     movements.forEach((element:Movement, index:number)=>{
         let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
-        if(heading?.category == "gasto"){
-          expenses.push(element);
-        }else{
+        if(heading?.category == "income"){
           incomes.push(element);
+        }else{
+          expenses.push(element);
         }
     });
     setIncomes(incomes);
@@ -78,21 +76,9 @@ const MovementsList = () => {
     setIsThereMessage(false);
     setWasThereError(false);
     MovementBL.deleteMovement(movementId,(result)=>{
-        let storage = localStorage.getItem("headings");
-        let headings = storage !=  null ? JSON.parse(storage) : new Array<Heading>();
-        
-        MovementBL.getMovements((movements)=>{
-          store.dispatch(emptyMovements());
-          store.dispatch(addMovements(JSON.stringify(movements))); 
-          store.dispatch(resetDifference());
-          store.dispatch(resetTotalExpense());
-          store.dispatch(resetTotalIncome());
-
-          setWasThereError(!result.isValid);
-          setIsThereMessage(true);
-          setMessage(result.message);
-          store.dispatch(calculateDifference());
-      });
+        headingBL.getHeadings((headings)=>{
+          MovementBL.getMovements();
+        })
     });
   };
 
