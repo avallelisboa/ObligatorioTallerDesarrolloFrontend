@@ -12,7 +12,11 @@ import AddMovementVM from '../../../../models/viewmodels/addMovementVM';
 
 import store from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMovements } from '../../../../features/movementsSlice';
+import { addExpenses, addIncomes, addMovements, calculateDifference, emptyMovements, resetDifference, resetTotalExpense, resetTotalIncome, sumExpense, sumIncome } from '../../../../features/movementsSlice';
+import IncomeMethod from './methodComponents/incomeMethodComponent';
+import ExpenseMethod from './methodComponents/expenseMethodComponent';
+import Income from '../../../../models/entities/Income';
+import Expense from '../../../../models/entities/Expense';
 
 const AddMovement = () => {
   const dispatch = useDispatch();
@@ -25,7 +29,7 @@ const AddMovement = () => {
   const conceptInputRef = useRef<HTMLInputElement>(null);
   const headingSelectRef = useRef<HTMLSelectElement>(null);
   const totalInputRef = useRef<HTMLInputElement>(null);
-  const methodInputRef = useRef<HTMLInputElement>(null);
+  const methodSelectRef = useRef<HTMLSelectElement>(null);
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   const [isThereMessage, setIsThereMessage] = useState(false);
@@ -47,16 +51,14 @@ const AddMovement = () => {
   const addMovementFN = (event:any)=>{
     event.preventDefault();
 
-    setMessage('');
-    setIsThereMessage(false);
-    setWasThereError(false);
+    cleanMessage();
 
     let userId:number = sessionBL.getUserId();
     let movementType:string = movementTypeSelectRef.current?.value as string;
     let concept:string = conceptInputRef.current?.value as string;
-    let heading:string = headingSelectRef.current?.value as string;
+    let heading:number = parseInt(headingSelectRef.current?.value as string);
     let total:number = parseInt(totalInputRef.current?.value as string);
-    let method:string = methodInputRef.current?.value as string;
+    let method:string = methodSelectRef.current?.value as string;
     let date:Date = moment(dateInputRef.current?.value as string).toDate();
 
     let addMovementVM:AddMovementVM = new AddMovementVM(userId, movementType,concept,heading,total,method, date);
@@ -64,14 +66,12 @@ const AddMovement = () => {
       setWasThereError(!(result.isValid));
       setIsThereMessage(true);
       setMessage(result.message);
-      MovementBL.getMovements((movements)=>{
-        store.dispatch(addMovements(JSON.stringify(movements)));
-      });
+      MovementBL.getMovements();
     });
   }
   
   return (
-    <>
+    <article>
       <h2>Add Movement Component works!!!</h2>
       <form onSubmit={addMovementFN}>
         <legend>Agregar movimiento</legend>
@@ -102,7 +102,11 @@ const AddMovement = () => {
         </fieldset>
         <fieldset>
           <label htmlFor="methodInputId">Medio</label>
-          <input type="text" id="methodInputId" ref={methodInputRef} required/>
+          <select id="methodInputId" ref={methodSelectRef} required>
+          {
+            movementType == "ingreso" ? <IncomeMethod/> : <ExpenseMethod/>              
+          }
+          </select>
         </fieldset>
         <fieldset>
           <label htmlFor="dateInputId">Fecha</label>
@@ -116,7 +120,7 @@ const AddMovement = () => {
               <p className={wasThereError ? 'error' : 'correct'}>{message}</p> : null
         }
       </form>
-    </>
+    </article>
   );
 }
 

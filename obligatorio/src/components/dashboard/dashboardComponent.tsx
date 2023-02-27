@@ -1,35 +1,39 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Nav from '../header/navComponent';
-import Graphics from './graphics/graphicsComponent';
-import Movements from './movements/movementsComponent';
+import Graphics from "./graphics/graphicsComponent";
+import Movements from "./movements/movementsComponent";
 import Ammounts from './ammounts/ammountsComponent';
 import './dashboardComponent.scss';
 
 import store from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMovements, emptyMovements } from '../../features/movementsSlice';
+import { 
+    addMovements, emptyMovements, sumIncome, sumExpense,
+    resetTotalExpense, resetTotalIncome,emptyExpenses,
+    emptyIncome, resetDifference, calculateDifference,
+    addExpenses, addIncomes
+} from '../../features/movementsSlice';
 import { addHeadings, emptyHeadings } from '../../features/headingSlice';
+
+import Heading from '../../models/entities/Heading';
 
 import sessionBL from '../../businessLogic/sessionBL';
 import MovementBL from '../../businessLogic/movementBL';
 import headingBL from '../../businessLogic/headingBL';
+import Expense from '../../models/entities/Expense';
+import Income from '../../models/entities/Income';
+import Movement from '../../models/entities/Movement';
 
 const Dashboard = (props:any)=>{
     const dispatch = useDispatch();
     
     useEffect(()=>{
-        MovementBL.getMovements((movements)=>{
-            store.dispatch(emptyMovements());
-            store.dispatch(addMovements(JSON.stringify(movements)));
-        });
-
         headingBL.getHeadings((headings)=>{
-            store.dispatch(emptyHeadings());
-            store.dispatch(addHeadings(JSON.stringify(headings)));
-            localStorage.setItem("headings", JSON.stringify(headings));
+            MovementBL.getMovements();
         });
+        
     },[]);
     
     const logOut = ()=>{
