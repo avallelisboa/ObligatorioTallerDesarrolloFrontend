@@ -9,7 +9,7 @@ import sessionBL from "./sessionBL";
 import Heading from "../models/entities/Heading";
 import moment from "moment";
 import store from "../store/store";
-import { addExpenses, addIncomes, addMovements as addMovementReducer, calculateDifference, sumExpense, sumIncome } from "../features/movementsSlice";
+import { addExpenses, addIncomes, addMovements as addMovementReducer, calculateDifference, resetTotalExpense, resetTotalIncome, sumExpense, sumIncome } from "../features/movementsSlice";
 import Expense from "../models/entities/Expense";
 import Income from "../models/entities/Income";
 
@@ -52,11 +52,13 @@ function calculateTotalsAndSaveThem(expenses:Array<Expense>, incomes:Array<Incom
     store.dispatch(calculateDifference());
 }
 function calculateTotalIncomeAndSaveIt(incomes:Array<Income>,store:any){
+    store.dispatch(resetTotalIncome());
     incomes.forEach((element:Income)=>{
         store.dispatch(sumIncome(element.total));
     });    
 }
 function calculateTotalExpensesAndSaveIt(expenses:Array<Expense>,store:any){
+    store.dispatch(resetTotalExpense());
     expenses.forEach((element:Expense)=>{
         store.dispatch(sumExpense(element.total));
     });
