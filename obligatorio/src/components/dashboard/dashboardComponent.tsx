@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Nav from '../header/navComponent';
 import Graphics from "./graphics/graphicsComponent";
-import Movements from "./movements/movementsComponent";
 import Ammounts from './ammounts/ammountsComponent';
 import './dashboardComponent.scss';
 
@@ -25,6 +24,13 @@ import headingBL from '../../businessLogic/headingBL';
 import Expense from '../../models/entities/Expense';
 import Income from '../../models/entities/Income';
 import Movement from '../../models/entities/Movement';
+
+import MovementsList from './movements/movementsList/movementsListComponent';
+import AddMovement from './movements/addMovement/addMovementComponent';
+import GraphicIncomeByHeading from './graphics/graphicIncomeByHeading/graphicIncomeByHeadingComponent';
+import GraphicExpensesEvolution from './graphics/graphicExpensesEvolution/graphicExpensesEvolutionComponent';
+import GraphicExpensesByHeading from './graphics/graphicExpensesByHeading/graphicExpensesByHeadingComponent';
+import GraphicsComparison from './graphics/graphicComparison/graphicsComparisonComponent';
 
 const Dashboard = (props:any)=>{
     const dispatch = useDispatch();
@@ -53,11 +59,15 @@ const Dashboard = (props:any)=>{
         <section>
             <h2>Dashboard prueba</h2>
             <Routes>
-                <Route path="/" element={<Movements/>}/>
-                <Route path="/*" element={<Movements/>}/>
-                <Route path="/Movimientos" element={<Movements/>}/>
-                <Route path="/Analisis" element={<Graphics/>}/>
+                <Route path="/" element={null}/>
+                <Route path="/Movimientos/Listado" element={<MovementsList/>}/>
+                <Route path="/Movimientos/Agregar" element={<AddMovement/>}/>
                 <Route path="/Montos" element={<Ammounts/>}/>
+                <Route path="/Analisis/" element={<GraphicIncomeByHeading/>} />
+                <Route path="/Analisis/IngresosPorRubro" element={<GraphicIncomeByHeading/>} />
+                <Route path="/Analisis/GastosPorRubro" element={<GraphicExpensesByHeading/>} />
+                <Route path="/Analisis/EvolucionGasto" element={<GraphicExpensesEvolution/>} />
+                <Route path="/Analisis/Comparativo" element={<GraphicsComparison/>} />
             </Routes>
         </section>
         </BrowserRouter>

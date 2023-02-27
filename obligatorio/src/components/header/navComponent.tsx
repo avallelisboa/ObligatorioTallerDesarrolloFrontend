@@ -8,7 +8,7 @@ const Nav = ()=>{
             <nav>
                 <ul>
                     <li>
-                        <Link to="/Movimientos">Movimientos</Link>
+                        <Link to="/Movimientos/Listado">Movimientos</Link>
                         <ul>
                             <li><Link to="/Movimientos/Agregar">Agregar Movimiento</Link></li>
                             <li><Link to="/Movimientos/Listado">Listado de Movimientos</Link></li>
@@ -16,7 +16,7 @@ const Nav = ()=>{
                     </li>
                     <li><Link to="/Montos">Montos totales</Link></li>
                     <li>
-                        <Link to="/Analisis">Análisis</Link>
+                        <Link to="/Analisis/EvolucionGasto">Análisis</Link>
                         <ul>
                             <li><Link to="/Analisis/IngresosPorRubro">Ingresos por rubro</Link></li>
                             <li><Link to="/Analisis/GastosPorRubro">Gastos por rubro</Link></li>
