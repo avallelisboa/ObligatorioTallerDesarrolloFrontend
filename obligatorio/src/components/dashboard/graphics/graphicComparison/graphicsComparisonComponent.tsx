@@ -36,12 +36,12 @@ const GraphicsComparison = () => {
     }
   },[selectedHeading]);
 
-const changeSelectedHeading = (headingId:number)=>{
-  let foundedHeading = headingsWithExpenses.find((head:any) => head.headingId == headingId);
+const changeSelectedHeading = (headingName:string)=>{
+  let foundedHeading = headingsWithExpenses.find((head:any) => head.name == headingName);
   let selectedHeading:Heading = foundedHeading != null ? foundedHeading : new Heading(0,"","","");
-  setSelectedHeading(selectedHeading);
+  setSelectedHeadingExpenses(selectedHeading.expenses);
 }
-  if(headingsWithExpenses.length > 0)
+  if(selectedHeadingExpenses.length > 0)
     return( 
     <>
       <select onChange={(element:any)=>changeSelectedHeading(element.target.value)}>
@@ -51,14 +51,21 @@ const changeSelectedHeading = (headingId:number)=>{
       </select>
       <p>
       {
-        expensesDifference > 0 ? `Para el rubro ${selectedHeading.name} has gastado $${expensesDifference} más que en la última compra.` :
-                                `Para el rubro ${selectedHeading.name} has gastado $${expensesDifference * -1} menos que en la última compra.`
+        expensesDifference > 0 ? `Para el rubro ${selectedHeading.name} has gastado $${expensesDifference} más que en la penúltima compra.` :
+                                `Para el rubro ${selectedHeading.name} has gastado $${expensesDifference * -1} menos que en la penúltima compra.`
       }
       </p>
     </>
     );
   else return (
-    <p>No hay gastos ingresados!!!</p>
+    <>
+      <select onChange={(element:any)=>changeSelectedHeading(element.target.value)}>
+        {
+            headingsWithExpenses.length > 0 ? headingsWithExpenses.map((head:Heading)=><HeadingComparison key={head.headingId} headingId={head.headingId} name={head.name}/>) : null
+        }
+      </select>
+      <p>No hay gastos ingresados!!!</p>
+    </>
   );
 }
 
