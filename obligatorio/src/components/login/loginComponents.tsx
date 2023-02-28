@@ -66,7 +66,7 @@ const Login = (props:any)=>{
     };
     return (
         <>
-            <article>
+            <article id='loginArticleId'>
                 <form onSubmit={logIn}>
                     <legend>Iniciar Sesión</legend>
                     <fieldset>

@@ -1,17 +1,29 @@
 import React, {useState, useEffect} from 'react'
 import {
   Chart as ChartJS,
+  ChartData,
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
+  Filler
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import store from '../../../../store/store';
+import headingSlice from '../../../../features/headingSlice';
 import { useSelector } from 'react-redux';
 import Heading from '../../../../models/entities/Heading';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 const options = {
   indexAxis: 'y' as const,
@@ -33,10 +45,17 @@ const options = {
 };
 
 const GraphicExpensesByHeading = () => {
-  const headings = JSON.parse(useSelector((state:any)=>state.headings.headings));
-  const [dataSet, setDataSet] = useState([]);
-  useEffect(()=>{
-    let data = headings.map((heading:Heading)=>{
+  const headings = useSelector((state:any)=>state.headings.headingsWithExpenses);
+  let headingsWithExpenses:Array<Heading>;
+  try{
+    headingsWithExpenses = JSON.parse(headings);
+  }catch(ex){
+    headingsWithExpenses = new Array<Heading>();
+  }
+  const labels = headingsWithExpenses.map((heading:Heading)=>heading.name);
+  const data ={
+    labels,
+    datasets:headingsWithExpenses.map((heading:Heading)=>{
       return {
           fill: true,
           label: heading.name,
@@ -44,15 +63,12 @@ const GraphicExpensesByHeading = () => {
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
-    });
-    setDataSet(data);
-  },[]);
-  const data ={
-    headings,
-    datasets:dataSet
+    })
   }
-
-  return <Bar options={options} data={data}/>;
+  if(headingsWithExpenses.length >0)
+    return <Bar options={options} data={data}/>;
+    else
+    return <article><p>No hay datos!!!</p></article>
 }
 
 export default GraphicExpensesByHeading;

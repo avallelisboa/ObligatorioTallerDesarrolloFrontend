@@ -3,7 +3,7 @@ import React from 'react'
 const GraphicExpensesEvolution = () => {
   return (
     <>
-      <h2>graphicExpensesEvolution</h2>
+      <h2>Evolución del gasto</h2>
     </>
   )
 }

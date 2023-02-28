@@ -57,7 +57,6 @@ const Dashboard = (props:any)=>{
             </section>
         </header>
         <section>
-            <h2>Dashboard prueba</h2>
             <Routes>
                 <Route path="/" element={null}/>
                 <Route path="/Movimientos/Listado" element={<MovementsList/>}/>

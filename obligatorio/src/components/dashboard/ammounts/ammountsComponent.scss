@@ -1,0 +1,14 @@
+article{
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    h2{
+        font-size: 300%;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    p{
+        font-size: 150%;
+    }
+}

@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react'
+import './movementsListComponent.scss'
 
 import Movement from '../../../../models/entities/Movement';
 import MoveElementList from './movementElementList/moveElementListComponent';
@@ -22,8 +23,18 @@ import Expense from '../../../../models/entities/Expense';
 import Income from '../../../../models/entities/Income';
 
 const MovementsList = () => {
-  const headings = JSON.parse(useSelector((state:any)=> state.headings.headings));
-  const movements = JSON.parse(useSelector((state:any) => state.movements.movements));
+  const reduxHeading = useSelector((state:any)=> state.headings.headings)
+  let headings:any;
+  const reduxMovements = useSelector((state:any) => state.movements.movements);
+  let movements:any;
+  try{
+    headings = JSON.parse(reduxHeading);
+    movements = JSON.parse(reduxMovements);
+  }
+  catch(ex){
+    headings = new Array<Heading>();
+    movements = new Array<Movement>();
+  }
   const [expenses, setExpenses] = useState(Array<Expense>);
   const [incomes, setIncomes] = useState(Array<Income>);
 
@@ -43,7 +54,7 @@ const MovementsList = () => {
     let expenses = new Array<Expense>();
     let incomes = new Array<Income>();
     movements.forEach((element:Movement, index:number)=>{
-        let heading =  headings.find((heading:Heading)=>heading.headingId == element.category);
+        let heading = headings.find((heading:Heading)=>heading.headingId == element.category);
         if(heading?.category == "ingreso"){
           incomes.push(element);
         }else{
@@ -76,6 +87,9 @@ const MovementsList = () => {
     setIsThereMessage(false);
     setWasThereError(false);
     MovementBL.deleteMovement(movementId,(result)=>{
+        setIsThereMessage(true);
+        setWasThereError(!result.isValid);
+        setMessage(result.message);
         headingBL.getHeadings((headings)=>{
           MovementBL.getMovements();
         })
@@ -83,14 +97,14 @@ const MovementsList = () => {
   };
 
   return (
-    <article>
+    <article id="movementsListArticleId">
       <h3>Lista de movimientos</h3>
       <select onChange={(e)=>setMovementsOptionSelected(e.target.value)}>
         <option value="Todos">Todos</option>
         <option value="Gastos">Gastos</option>
         <option value="Ingresos">Ingresos</option>
       </select>
-        <table>
+        <table id="movementsTableListId">
           <thead>
             <tr>
             <th>Id Movimiento</th>
@@ -99,7 +113,8 @@ const MovementsList = () => {
             <th>Categoría</th>
             <th>Total</th>
             <th>Método de pago</th>
-            <th>Fecha</th>  
+            <th>Fecha</th>
+            <th></th>
             </tr>
           </thead>
           <tbody>

@@ -1,7 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.scss";
-
+*{
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 h1, h2{
+  font-size: 120%;
   text-align: center;
   color: gray;
 }

@@ -1,9 +1,40 @@
-article{
+#movementsListArticleId{
+    position: relative;
+    transform: none;
+    top: auto;
+    left: auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
+    overflow: auto;
     form{
         width: 50%;
+    }
+    table{
+        thead{
+            tr{
+                border: 3px solid gray;
+                background-color: lightblue;
+                th{
+                    padding: 20px; 
+                }
+            }
+        }
+        tbody{
+            tr{
+                border: 2px solid gray;
+                td{
+                    padding: 15px;
+                    button{
+                        color:white;
+                        font-weight: bolder;
+                        background-color: red;
+                        border-radius: 3px;
+                        padding: 10px;
+                    }
+                }
+            }
+        }
     }
 }

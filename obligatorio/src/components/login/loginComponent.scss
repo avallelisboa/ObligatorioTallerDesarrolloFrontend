@@ -11,6 +11,7 @@ article{
         text-align: left;
         legend{
             font-weight: bold;
+            font-size: 180%;
             text-align: center;
         }
         fieldset{
@@ -19,23 +20,29 @@ article{
             width: 100%;
             color: gray;
           }
-          input{
+          input, select{
             width: 100%;
             color: gray;
           }
           input[type="submit"]{
-            width: 25%;
-          }
+                width: 30%;
+                color:white;
+                font-weight: bold;
+                background-color: dodgerblue;
+                border: 1px solid gray;
+                border-radius: 3px;
+            }
         }        
     }
     div{
       width: 25%;
       button{
-        margin-left: 3%;
+        margin-left: 1%;
         border: none;
         background-color: transparent;
         text-decoration: underline;
         color:blue;
+        font-size: 115%;
       }       
       p{
         width: 25%;
@@ -48,6 +55,28 @@ article{
     }  
     
   }
+#loginArticleId{
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%)
+              translateY(0%);
+  form{
+    fieldset{
+      padding: 5px;
+      label{
+        font-size: 110%;
+      }
+      input{
+        padding: 5px;
+      }
+      input[type="submit"]{
+        padding: 5px;
+        font-size: 105%;
+      }
+    }
+  }
+}
 #modalArticleId{
   background-color: white;
   position: absolute;

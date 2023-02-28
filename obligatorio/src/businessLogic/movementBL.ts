@@ -10,7 +10,7 @@ import Heading from "../models/entities/Heading";
 import moment from "moment";
 import store from "../store/store";
 import { addExpenses, addIncomes, addMovements as addMovementReducer, calculateDifference, resetTotalExpense, resetTotalIncome, sumExpense, sumIncome } from "../features/movementsSlice";
-import { addHeadings, addHeadingsWithExpenses } from "../features/headingSlice";
+import { addHeadings, addHeadingsWithExpenses, addHeadingsWithIncomes } from "../features/headingSlice";
 import Expense from "../models/entities/Expense";
 import Income from "../models/entities/Income";
 
@@ -46,11 +46,15 @@ function calculateExpensesAndIncomesByHeadingAndSaveThem(){
     });
     store.dispatch(addHeadings(JSON.stringify(headingsWithExpensesAndIncomes)));
     let headingsWithExpenses = new Array<Heading>();
+    let headingsWithIncomes = new Array<Heading>();
     headingsWithExpensesAndIncomes.forEach((heading:Heading)=>{
         if(heading.category == "gasto")
             headingsWithExpenses.push(heading);
+        else if(heading.category == "ingreso")
+            headingsWithIncomes.push(heading);
     });
     store.dispatch(addHeadingsWithExpenses(JSON.stringify(headingsWithExpenses)));
+    store.dispatch(addHeadingsWithIncomes(JSON.stringify(headingsWithIncomes)));
 }
 function calculateExpensesByHeading(expenses:Array<Expense>, heading:Heading){
     expenses.forEach((expense:Expense)=>{
