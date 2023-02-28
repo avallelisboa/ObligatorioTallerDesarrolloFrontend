@@ -10,6 +10,7 @@ import Heading from "../models/entities/Heading";
 import moment from "moment";
 import store from "../store/store";
 import { addExpenses, addIncomes, addMovements as addMovementReducer, calculateDifference, resetTotalExpense, resetTotalIncome, sumExpense, sumIncome } from "../features/movementsSlice";
+import { addHeadings, addHeadingsWithExpenses } from "../features/headingSlice";
 import Expense from "../models/entities/Expense";
 import Income from "../models/entities/Income";
 
@@ -23,10 +24,55 @@ function addMovement(movementVM:AddMovementVM, callbackFN:(result:ActionResult)=
 }
 function getMovements(){
     MovementService.getMovements(sessionBL.getUserId(), parseMovements,(movements)=>{
-
         store.dispatch(addMovementReducer(JSON.stringify(movements)));
         saveIncomesAndExpensesInStore(movements);
+        calculateExpensesAndIncomesByHeadingAndSaveThem();
     });    
+}
+function calculateExpensesAndIncomesByHeadingAndSaveThem(){
+    const state = store.getState();
+    let headings = JSON.parse(state.headings.headings.toString());
+    let expenses = JSON.parse(state.movements.expenses.toString());
+    let incomes = JSON.parse(state.movements.incomes.toString());
+
+    let headingsWithExpensesAndIncomes = headings.map((element:any)=>{
+        let heading = element as Heading;
+
+        if(heading.category == "gasto")
+            calculateExpensesByHeading(expenses,heading);
+        else calculateIncomeByHeading(incomes, heading);
+        
+        return heading;
+    });
+    store.dispatch(addHeadings(JSON.stringify(headingsWithExpensesAndIncomes)));
+    let headingsWithExpenses = new Array<Heading>();
+    headingsWithExpensesAndIncomes.forEach((heading:Heading)=>{
+        if(heading.category == "gasto")
+            headingsWithExpenses.push(heading);
+    });
+    store.dispatch(addHeadingsWithExpenses(JSON.stringify(headingsWithExpenses)));
+}
+function calculateExpensesByHeading(expenses:Array<Expense>, heading:Heading){
+    expenses.forEach((expense:Expense)=>{
+        if(expense.category == heading.headingId){
+            heading.totalExpense += expense.total;
+            heading.expenses.push(expense);
+        }
+    });
+    sortExpenses(heading);
+}
+function sortExpenses(heading:Heading){
+    heading.expenses = heading.expenses.sort((a:Expense, b:Expense)=>{
+        return moment(a.date).isBefore(b.date) ? -1 : 1;
+      });
+}
+function calculateIncomeByHeading(incomes:Array<Income>, heading:Heading){
+    incomes.forEach((income:Income)=>{
+        if(income.category == heading.headingId){
+            heading.totalIncome += income.total;
+            heading.incomes.push(income);
+        }
+    });
 }
 function saveIncomesAndExpensesInStore(movements:Array<Movement>){
     const state = store.getState();
