@@ -79,7 +79,6 @@ const AddMovement = () => {
   
   return (
     <article>
-      <h2>Add Movement Component works!!!</h2>
       <form onSubmit={addMovementFN}>
         <legend>Agregar movimiento</legend>
         <fieldset>

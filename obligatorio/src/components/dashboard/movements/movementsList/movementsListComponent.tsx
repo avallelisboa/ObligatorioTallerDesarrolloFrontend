@@ -63,7 +63,7 @@ const MovementsList = () => {
     });
     setIncomes(incomes);
     setExpenses(expenses);
-  },[]);
+  },[reduxMovements]);
 
   useEffect(()=>{
     switch(movementsOptionSelected){
@@ -90,6 +90,7 @@ const MovementsList = () => {
         setIsThereMessage(true);
         setWasThereError(!result.isValid);
         setMessage(result.message);
+        movements.splice(movementId,1);
         headingBL.getHeadings((headings)=>{
           MovementBL.getMovements();
         })

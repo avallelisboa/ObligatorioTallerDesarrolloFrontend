@@ -37,6 +37,19 @@ const options = {
     legend: {
       position: 'right' as const,
     },
+    scales: {
+      xAxes: [{
+        display: true,
+        ticks: {
+          stepSize: 1000,
+          min: 0,
+          max: 9000000000
+        }
+      }],
+      yAxes: [{
+        display: true
+      }],
+    },
     title: {
       display: true,
       text: 'Gastos por rubro',
