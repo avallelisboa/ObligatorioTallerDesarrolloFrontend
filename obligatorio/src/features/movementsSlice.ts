@@ -5,8 +5,9 @@ const movementsSlice =  createSlice({
     name: "movements",
     initialState:{
         movements:[],
-        income:[],
+        incomes:[],
         expenses:[],
+        expensesByMonth:[],
         totalIncome:0,
         totalExpense:0,
         difference:0
@@ -19,10 +20,10 @@ const movementsSlice =  createSlice({
             state.movements = [];
         },
         addIncomes:(state, action)=>{
-            state.income = action.payload;
+            state.incomes = action.payload;
         },
         emptyIncome:(state)=>{
-            state.income = [];
+            state.incomes = [];
         },
         addExpenses:(state, action)=>{
             state.expenses = action.payload;
@@ -47,6 +48,9 @@ const movementsSlice =  createSlice({
         },
         calculateDifference:(state)=>{
             state.difference = state.totalIncome - state.totalExpense;
+        },
+        setExpensesPerMonth:(state, action)=>{
+            state.expensesByMonth = action.payload;
         }
     }
 });
@@ -55,6 +59,6 @@ export const {
     addMovements, emptyMovements, addIncomes, emptyIncome,
     addExpenses, emptyExpenses, sumIncome, sumExpense,
     resetTotalIncome, resetTotalExpense, resetDifference,
-    calculateDifference
+    calculateDifference, setExpensesPerMonth
 } = movementsSlice.actions;
 export default movementsSlice.reducer;

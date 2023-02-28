@@ -4,7 +4,9 @@ import Heading from "../models/entities/Heading";
 const headingsSlice = createSlice({
     name: "headings",
     initialState:{
-        headings:[]
+        headings:[],
+        headingsWithExpenses:[],
+        headingsWithIncomes:[]
     },
     reducers:{
         addHeadings:(state, action)=>{
@@ -12,9 +14,21 @@ const headingsSlice = createSlice({
         },
         emptyHeadings:(state)=>{
             state.headings = [];
+        },
+        addHeadingsWithIncomes:(state, action)=>{
+            state.headingsWithIncomes = action.payload;
+        },
+        emptyHeadingsWithIncome:(state)=>{
+            state.headingsWithIncomes = [];
+        },
+        addHeadingsWithExpenses:(state, action)=>{
+            state.headingsWithExpenses = action.payload;
+        },
+        emptyHeadingsWithExpenses:(state, action)=>{
+            state.headingsWithExpenses = [];
         }
     }
 });
 
-export const {addHeadings, emptyHeadings} = headingsSlice.actions;
+export const {addHeadings, emptyHeadings, addHeadingsWithExpenses, emptyHeadingsWithExpenses, addHeadingsWithIncomes,emptyHeadingsWithIncome} = headingsSlice.actions;
 export default headingsSlice.reducer;

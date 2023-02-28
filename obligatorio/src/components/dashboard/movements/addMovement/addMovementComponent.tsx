@@ -21,7 +21,14 @@ import Expense from '../../../../models/entities/Expense';
 const AddMovement = () => {
   const dispatch = useDispatch();
 
-  const headings = JSON.parse(useSelector((state:any) => state.headings.headings));
+  const headingsToParse = useSelector((state:any) => state.headings.headings);
+  let headings:Array<Heading>;
+  try{
+    headings = JSON.parse(headingsToParse);
+    
+  }catch(ex){
+    headings = new Array<Heading>();
+  }
 
   const [movementType, setMovementType] = useState("ingreso");
 
