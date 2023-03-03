@@ -15,6 +15,7 @@ import store from '../../../../store/store';
 import headingSlice from '../../../../features/headingSlice';
 import { useSelector } from 'react-redux';
 import Heading from '../../../../models/entities/Heading';
+import Expense from '../../../../models/entities/Expense';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -72,7 +73,7 @@ const GraphicExpensesByHeading = () => {
       return {
           fill: true,
           label: heading.name,
-          data: heading.totalExpense,
+          data: heading.expenses.map((expense:Expense)=>expense.total),
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
@@ -80,7 +81,7 @@ const GraphicExpensesByHeading = () => {
   }
   if(headingsWithExpenses.length >0)
     return <Bar options={options} data={data}/>;
-    else
+  else
     return <article><p>No hay datos!!!</p></article>
 }
 

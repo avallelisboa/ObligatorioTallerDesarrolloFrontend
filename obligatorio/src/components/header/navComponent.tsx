@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './navComponent.scss';
 
 const Nav = ()=>{
@@ -8,20 +8,20 @@ const Nav = ()=>{
             <nav>
                 <ul>
                     <li>
-                        <Link to="/Movimientos/Listado">Movimientos</Link>
+                        <NavLink to="/Movimientos/">Movimientos</NavLink>
                         <ul>
-                            <li><Link to="/Movimientos/Agregar">Agregar Movimiento</Link></li>
-                            <li><Link to="/Movimientos/Listado">Listado de Movimientos</Link></li>
+                            <li><NavLink to="/Movimientos/Agregar">Agregar Movimiento</NavLink></li>
+                            <li><NavLink to="/Movimientos/Listado">Listado de Movimientos</NavLink></li>
                         </ul>
                     </li>
-                    <li><Link to="/Montos">Montos totales</Link></li>
+                    <li><NavLink to="/Montos">Montos totales</NavLink></li>
                     <li>
-                        <Link to="/Analisis/EvolucionGasto">Análisis</Link>
+                        <NavLink to="/Analisis/">Análisis</NavLink>
                         <ul>
-                            <li><Link to="/Analisis/IngresosPorRubro">Ingresos por rubro</Link></li>
-                            <li><Link to="/Analisis/GastosPorRubro">Gastos por rubro</Link></li>
-                            <li><Link to="/Analisis/EvolucionGasto">Evolución de gasto</Link></li>
-                            <li><Link to="/Analisis/Comparativo">Comparativo</Link></li>
+                            <li><NavLink to="/Analisis/IngresosPorRubro">Ingresos por rubro</NavLink></li>
+                            <li><NavLink to="/Analisis/GastosPorRubro">Gastos por rubro</NavLink></li>
+                            <li><NavLink to="/Analisis/EvolucionGasto">Evolución de gasto</NavLink></li>
+                            <li><NavLink to="/Analisis/Comparativo">Comparativo</NavLink></li>
                         </ul>
                     </li>
                 </ul>

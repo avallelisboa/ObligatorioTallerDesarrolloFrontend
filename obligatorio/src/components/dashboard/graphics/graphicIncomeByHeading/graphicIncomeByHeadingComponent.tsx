@@ -13,6 +13,7 @@ import { Bar } from 'react-chartjs-2';
 import store from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import Heading from '../../../../models/entities/Heading';
+import Income from '../../../../models/entities/Income';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -70,7 +71,7 @@ const GraphicIncomeByHeading = ()=>{
           return {
               fill: true,
               label: heading.name,
-              data: heading.totalIncome,
+              data: heading.incomes.map((income:Income)=>income.total),
               borderColor: 'rgb(53, 162, 235)',
               backgroundColor: 'rgba(53, 162, 235, 0.5)',
           }
